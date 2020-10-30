@@ -42,6 +42,7 @@ export async function createAppController(
         args: [targetApp],
         connectionRetryCount: DEFAULT_APP_CONNECT_RETRIES,
         connectionRetryTimeout: DEFAULT_APP_CONNECT_TIMEOUT_MS,
+        webdriverLogPath: 'drop',
         ...overrideSpectronOptions,
     });
     await app.start();

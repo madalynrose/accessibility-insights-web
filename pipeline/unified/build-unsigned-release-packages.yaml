@@ -10,8 +10,8 @@ trigger: none
 strategy:
     matrix:
         windows: { vmImage: 'windows-latest', platform: 'windows' }
-        mac: { vmImage: 'macOS-10.15', platform: 'mac' }
-        linux: { vmImage: 'ubuntu-18.04', platform: 'linux' }
+        #mac: { vmImage: 'macOS-10.15', platform: 'mac' }
+        #linux: { vmImage: 'ubuntu-18.04', platform: 'linux' }
 
 pool:
     vmImage: $(vmImage)
@@ -24,20 +24,20 @@ steps:
 
     - template: ./download-electron-mirror.yaml
 
-    - task: ComponentGovernanceComponentDetection@0
-      displayName: 'dependency detection (Component Governance)'
-      inputs:
-          detectorsFilter: Yarn
-          ignoreDirectories: 'drop,dist,extension,node_modules'
-          verbosity: Normal
-      timeoutInMinutes: 5
+    #    - task: ComponentGovernanceComponentDetection@0
+    #      displayName: 'dependency detection (Component Governance)'
+    #      inputs:
+    #          detectorsFilter: Yarn
+    #          ignoreDirectories: 'drop,dist,extension,node_modules'
+    #          verbosity: Normal
+    #      timeoutInMinutes: 5
 
-    - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
-      displayName: 'generate NOTICE.html file'
-      inputs:
-          outputfile: '$(System.DefaultWorkingDirectory)/src/NOTICE.html'
-          outputformat: html
-      timeoutInMinutes: 5
+    #    - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
+    #      displayName: 'generate NOTICE.html file'
+    #      inputs:
+    #          outputfile: '$(System.DefaultWorkingDirectory)/src/NOTICE.html'
+    #          outputformat: html
+    #      timeoutInMinutes: 5
 
     - template: ./unified-e2e-test-interactive.yaml
 
@@ -46,8 +46,14 @@ steps:
     - script: yarn build:unified:all --unified-version=$(Build.BuildNumber) --unified-canary-instrumentation-key=$(UnifiedCanaryInstrumentationKey) --unified-insider-instrumentation-key=$(UnifiedInsiderInstrumentationKey) --unified-prod-instrumentation-key=$(UnifiedProdInstrumentationKey)
       displayName: yarn build:unified:all
 
-    - script: node ./pipeline/scripts/print-file-hash-info.js $(System.DefaultWorkingDirectory)/drop/electron/unified-canary/packed
-      displayName: print out canary file hashes
+    #    - script: node ./pipeline/scripts/print-file-hash-info.js $(System.DefaultWorkingDirectory)/drop/electron/unified-canary/packed
+    #      displayName: print out canary file hashes
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+          pathtoPublish: '$(System.DefaultWorkingDirectory)/drop/wdio.log'
+          artifactName: logs
+      displayName: publish artifact logs
 
     - template: publish-packed-build-output.yaml
       parameters:
