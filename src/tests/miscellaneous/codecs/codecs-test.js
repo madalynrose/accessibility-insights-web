@@ -3,6 +3,8 @@
 const { app, BrowserWindow } = require('electron');
 
 app.whenReady().then(() => {
-    const win = new BrowserWindow();
+    const win = new BrowserWindow({
+        webPreferences: { enableRemoteModule: true },
+    });
     win.loadFile('codecs.html');
 });
