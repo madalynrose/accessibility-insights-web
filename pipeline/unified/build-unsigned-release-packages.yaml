@@ -49,12 +49,6 @@ steps:
     #    - script: node ./pipeline/scripts/print-file-hash-info.js $(System.DefaultWorkingDirectory)/drop/electron/unified-canary/packed
     #      displayName: print out canary file hashes
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-          pathtoPublish: '$(System.DefaultWorkingDirectory)/drop/wdio.log'
-          artifactName: logs
-      displayName: publish artifact logs
-
     - template: publish-packed-build-output.yaml
       parameters:
           packedOutputPath: '$(System.DefaultWorkingDirectory)/drop/electron/unified-canary/packed'

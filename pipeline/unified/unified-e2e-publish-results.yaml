@@ -14,6 +14,12 @@ steps:
       continueOnError: true
       displayName: publish electron e2e screenshots and extended logs
 
+    - publish: '$(System.DefaultWorkingDirectory)/drop/wdio.log'
+      artifact: '$(Agent.JobName)-wdio'
+      condition: failed()
+      continueOnError: true
+      displayName: publish wdio
+
     - publish: '$(System.DefaultWorkingDirectory)/drop/mock-adb/logs'
       artifact: '$(Agent.JobName)-mock-adb'
       condition: failed()
