@@ -34,11 +34,11 @@ describe('TabStopsView', () => {
         await setupMockAdb(commonAdbConfigs['single-device'], mockAdbLogsBase, mockAdbLogsFolder);
 
         app = await createApplication({ suppressFirstTimeDialog: true });
-        app.setFeatureFlag(UnifiedFeatureFlags.tabStops, true);
-        app.client.browserWindow.setSize(windowWidth, windowHeight);
-        logController = new LogController(logsContext, mockAdbFolder, app.client);
-        tabStopsViewController = new TabStopsViewController(app.client);
-        virtualKeyboardViewController = new VirtualKeyboardViewController(app.client);
+        await app.setFeatureFlag(UnifiedFeatureFlags.tabStops, true);
+        await app.page.setViewportSize({ width: windowWidth, height: windowHeight });
+        logController = new LogController(logsContext, mockAdbFolder, app.page);
+        tabStopsViewController = new TabStopsViewController(app.page);
+        virtualKeyboardViewController = new VirtualKeyboardViewController(app.page);
         resultsViewController = await app.openResultsView();
         await resultsViewController.clickLeftNavItem('tab-stops');
     });

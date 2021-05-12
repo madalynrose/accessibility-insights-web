@@ -25,7 +25,7 @@ const releaseTests = process.env.RUN_RELEASE_TESTS === 'true';
             appController = await createAppController(
                 path.resolve(__dirname, '..', '..', 'miscellaneous', 'codecs', 'codecs-test.js'),
             );
-            viewContoller = new CodecTestViewController(appController.client);
+            viewContoller = new CodecTestViewController(appController.page);
             await viewContoller.waitForAudioVisible();
         });
 
@@ -33,7 +33,7 @@ const releaseTests = process.env.RUN_RELEASE_TESTS === 'true';
 
         // https://html.spec.whatwg.org/multipage/media.html#error-codes:dom-mediaerror-media_err_src_not_supported
         it('has error when loading mp3 <audio> in renderer process', async () => {
-            expect(await viewContoller.client.getAttribute('#audio', 'data-err')).toEqual('4');
+            expect(await viewContoller.page.getAttribute('#audio', 'data-err')).toEqual('4');
         });
     },
 );

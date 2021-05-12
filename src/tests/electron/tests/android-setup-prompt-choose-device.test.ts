@@ -57,7 +57,7 @@ describe('Android setup - prompt-choose-device (multiple devices)', () => {
         expect(await dialog.isEnabled(getAutomationIdSelector(closeId))).toBe(true);
         expect(await dialog.isEnabled(getAutomationIdSelector(nextId))).toBe(true);
         expect(await dialog.isEnabled(getAutomationIdSelector(rescanId))).toBe(true);
-        const devices = await dialog.client.$$(
+        const devices = await dialog.page.$$(
             getAutomationIdSelector(deviceDescriptionAutomationId),
         );
         expect(devices.length).toBe(3);
@@ -91,7 +91,7 @@ describe('Android setup - prompt-choose-device (multiple devices)', () => {
 
         // Select the second item in the list
         await dialog.click(getAutomationIdSelector(deviceDescriptionAutomationId));
-        await dialog.client.keys(downArrowKey);
+        await dialog.page.press(deviceDescriptionAutomationId, downArrowKey);
         await dialog.waitForMilliseconds(1000);
         await dialog.click(getAutomationIdSelector(nextId));
         await dialog.waitForDialogVisible('detect-service');
@@ -153,7 +153,7 @@ describe('Android setup - prompt-choose-device (single device)', () => {
         expect(await dialog.isEnabled(getAutomationIdSelector(closeId))).toBe(true);
         expect(await dialog.isEnabled(getAutomationIdSelector(nextId))).toBe(true);
         expect(await dialog.isEnabled(getAutomationIdSelector(rescanId))).toBe(true);
-        const devices = await dialog.client.$$(
+        const devices = await dialog.page.$$(
             getAutomationIdSelector(deviceDescriptionAutomationId),
         );
         expect(devices.length).toBe(1);

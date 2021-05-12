@@ -37,10 +37,10 @@ describe('ResultsView', () => {
     });
 
     it('should pass accessibility validation when left nav is showing', async () => {
-        await app.client.browserWindow.setSize(
-            narrowModeThresholds.collapseCommandBarThreshold + 1,
+        await app.page.setViewportSize({
+            width: narrowModeThresholds.collapseCommandBarThreshold + 1,
             height,
-        );
+        });
         await resultsView.waitForSelector(ResultsViewSelectors.leftNav);
         await scanForAccessibilityIssuesInAllModes(app);
     });
@@ -51,13 +51,13 @@ describe('ResultsView', () => {
             config => config.featureFlag === undefined,
         )[testIndex].contentPageInfo.title;
 
-        await app.client.browserWindow.setSize(
-            narrowModeThresholds.collapseCommandBarThreshold + 1,
+        await app.page.setViewportSize({
+            width: narrowModeThresholds.collapseCommandBarThreshold + 1,
             height,
-        );
+        });
         await resultsView.waitForSelector(ResultsViewSelectors.leftNav);
-        await resultsView.client.click(ResultsViewSelectors.nthTestInLeftNav(testIndex + 1));
-        const title = await resultsView.client.getText('h1');
+        await resultsView.page.click(ResultsViewSelectors.nthTestInLeftNav(testIndex + 1));
+        const title = await resultsView.page.textContent('h1');
         expect(title).toEqual(expectedTestTitle);
     });
 
@@ -77,7 +77,7 @@ describe('ResultsView', () => {
             'data:image/png;base64,' + axeRuleResultExample.axeContext.screenshot;
 
         await resultsView.waitForSelector(ScreenshotViewSelectors.screenshotImage);
-        const actualScreenshotImage = await resultsView.client.getAttribute(
+        const actualScreenshotImage = await resultsView.page.getAttribute(
             ScreenshotViewSelectors.screenshotImage,
             'src',
         );
@@ -88,7 +88,7 @@ describe('ResultsView', () => {
     it('ScreenshotView renders expected number/size of highlight boxes in expected positions', async () => {
         await resultsView.waitForSelector(ScreenshotViewSelectors.highlightBox);
 
-        const boxes = await resultsView.client.$$(ScreenshotViewSelectors.highlightBox);
+        const boxes = await resultsView.page.$$(ScreenshotViewSelectors.highlightBox);
         const styles = await Promise.all(boxes.map(async b => await b.getAttribute('style')));
         const actualHighlightBoxStyles = styles.map(extractPositionStyles);
         verifyHighlightBoxStyles(actualHighlightBoxStyles, [
@@ -139,8 +139,7 @@ describe('ResultsView', () => {
                 ? narrowModeThresholds.collapseCommandBarThreshold - 2
                 : narrowModeThresholds.collapseCommandBarThreshold;
 
-        await app.client.browserWindow.restore();
-        await app.client.browserWindow.setSize(width, height);
+        await app.page.setViewportSize({ width, height });
     };
 
     it('command bar reflows when narrow mode threshold is crossed', async () => {
@@ -158,22 +157,22 @@ describe('ResultsView', () => {
     it('hamburger button click opens and closes left nav', async () => {
         await setupWindowForCommandBarReflowTest('narrow');
         await waitForFluentLeftNavToDisappear();
-        await resultsView.client.click(ResultsViewSelectors.leftNavHamburgerButton);
+        await resultsView.page.click(ResultsViewSelectors.leftNavHamburgerButton);
         await resultsView.waitForSelector(ResultsViewSelectors.fluentLeftNav);
 
         // Clicks the hamburger button inside the fluent left nav (there is one within the command bar as well)
         const selector = `${ResultsViewSelectors.fluentLeftNav} ${ResultsViewSelectors.leftNavHamburgerButton}`;
-        await resultsView.client.click(selector);
+        await resultsView.page.click(selector);
         await waitForFluentLeftNavToDisappear();
     });
 
     it('left nav closes when item is selected', async () => {
         await setupWindowForCommandBarReflowTest('narrow');
-        await resultsView.client.click(ResultsViewSelectors.leftNavHamburgerButton);
+        await resultsView.page.click(ResultsViewSelectors.leftNavHamburgerButton);
         await resultsView.waitForSelector(ResultsViewSelectors.fluentLeftNav);
 
         const selector = `${ResultsViewSelectors.fluentLeftNav} a`;
-        await resultsView.client.click(selector);
+        await resultsView.page.click(selector);
         await waitForFluentLeftNavToDisappear();
     });
 
