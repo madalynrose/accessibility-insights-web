@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { source as axeCoreSource } from 'axe-core';
+import { AxeResults, ElementContext, source as axeCoreSource } from 'axe-core';
+import { Page } from 'playwright';
 import { AppController } from 'tests/electron/common/view-controllers/app-controller';
-import { SpectronAsyncClient } from 'tests/electron/common/view-controllers/spectron-async-client';
 import {
     prettyPrintAxeViolations,
     PrintableAxeResult,
@@ -22,48 +22,31 @@ async function scanForAccessibilityIssues(
     await app.setHighContrastMode(enableHighContrast);
     await app.waitForHighContrastMode(enableHighContrast);
 
-    const violations = await runAxeScan(app.client);
+    const violations = await runAxeScan(app.page);
     expect(violations).toStrictEqual([]);
 }
 
-async function runAxeScan(
-    spectronClient: SpectronAsyncClient,
-    selector?: string,
-): Promise<PrintableAxeResult[]> {
-    await injectAxeIfUndefined(spectronClient);
+export async function runAxeScan(page: Page, selector?: string): Promise<PrintableAxeResult[]> {
+    await injectAxeIfUndefined(page);
 
-    const axeRunOptions = {
-        runOnly: {
-            type: 'tag',
-            values: ['wcag2a', 'wcag21a', 'wcag2aa', 'wcag21aa'],
-        },
-    };
-
-    const axeResults = await spectronClient.executeAsync(
-        (options, selectorInEvaluate, done) => {
-            const elementContext =
-                selectorInEvaluate === null ? document : { include: [selectorInEvaluate] };
-
-            axe.run(elementContext, options, function (err: Error, results: any): void {
-                if (err) {
-                    throw err;
-                }
-                done(results);
-            });
-        },
-        axeRunOptions,
-        selector,
-    );
+    const axeResults = (await page.evaluate(selectorInEvaluate => {
+        return axe.run(
+            { include: [selectorInEvaluate] } as ElementContext,
+            {
+                runOnly: { type: 'tag', values: ['wcag2a', 'wcag21a', 'wcag2aa', 'wcag21aa'] },
+            } as ElementContext,
+        );
+    }, selector)) as AxeResults;
 
     return prettyPrintAxeViolations(axeResults);
 }
 
-async function injectAxeIfUndefined(spectronClient: SpectronAsyncClient): Promise<void> {
-    const axeIsUndefined = await spectronClient.execute(() => {
+async function injectAxeIfUndefined(page: Page): Promise<void> {
+    const axeIsUndefined = await page.evaluate(() => {
         return (window as any).axe === undefined;
-    });
+    }, null);
 
     if (axeIsUndefined) {
-        await spectronClient.execute(axeCoreSource);
+        await page.addInitScript(axeCoreSource);
     }
 }
