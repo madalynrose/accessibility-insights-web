@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import { Page } from 'playwright';
 import { ScreenshotViewSelectors } from 'tests/electron/common/element-identifiers/screenshot-view-selectors';
-import { SpectronAsyncClient } from 'tests/electron/common/view-controllers/spectron-async-client';
 import { AutomatedChecksViewSelectors } from '../element-identifiers/automated-checks-view-selectors';
 import { ViewController } from './view-controller';
 
 export class CardsViewController extends ViewController {
-    constructor(client: SpectronAsyncClient) {
-        super(client);
+    constructor(page: Page) {
+        super(page);
     }
-
     public async waitForRuleGroupCount(count: number): Promise<void> {
         await this.waitForNumberOfSelectorMatches(AutomatedChecksViewSelectors.ruleGroup, count);
     }
@@ -19,13 +18,13 @@ export class CardsViewController extends ViewController {
     }
 
     public async queryRuleGroupContents(): Promise<any[]> {
-        return this.client.$$(AutomatedChecksViewSelectors.ruleContent);
+        return this.page.$$(AutomatedChecksViewSelectors.ruleContent);
     }
 
     public async toggleRuleGroupAtPosition(position: number): Promise<void> {
         const selector = AutomatedChecksViewSelectors.nthRuleGroupCollapseExpandButton(position);
         await this.waitForSelector(selector);
-        await this.client.click(selector);
+        await this.page.click(selector);
     }
 
     public async assertExpandedRuleGroup(
@@ -33,13 +32,13 @@ export class CardsViewController extends ViewController {
         expectedTitle: string,
         expectedFailures: number,
     ): Promise<void> {
-        const title = await this.client.getText(
+        const title = await this.page.textContent(
             AutomatedChecksViewSelectors.nthRuleGroupTitle(position),
         );
 
         expect(title).toEqual(expectedTitle);
 
-        const failures = await this.client.$$(
+        const failures = await this.page.$$(
             AutomatedChecksViewSelectors.nthRuleGroupInstances(position),
         );
 
@@ -47,13 +46,13 @@ export class CardsViewController extends ViewController {
     }
 
     public async assertCollapsedRuleGroup(position: number, expectedTitle: string): Promise<void> {
-        const title = await this.client.getText(
+        const title = await this.page.textContent(
             AutomatedChecksViewSelectors.nthRuleGroupTitle(position),
         );
 
         expect(title).toEqual(expectedTitle);
 
-        const failures = await this.client.$$(
+        const failures = await this.page.$$(
             AutomatedChecksViewSelectors.nthRuleGroupInstances(position),
         );
 

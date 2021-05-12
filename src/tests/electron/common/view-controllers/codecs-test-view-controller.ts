@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { SpectronAsyncClient } from 'tests/electron/common/view-controllers/spectron-async-client';
+import { Page } from 'playwright';
 import { ViewController } from './view-controller';
 
 export class CodecTestViewController extends ViewController {
-    constructor(client: SpectronAsyncClient) {
-        super(client);
+    constructor(page: Page) {
+        super(page);
     }
 
     public async waitForAudioVisible(): Promise<void> {

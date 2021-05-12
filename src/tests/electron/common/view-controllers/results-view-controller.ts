@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { LeftNavItemKey } from 'electron/types/left-nav-item-key';
+import { Page } from 'playwright';
 import { ResultsViewSelectors } from 'tests/electron/common/element-identifiers/results-view-selectors';
 import { ScreenshotViewSelectors } from 'tests/electron/common/element-identifiers/screenshot-view-selectors';
 import { CardsViewController } from 'tests/electron/common/view-controllers/cards-view-controller';
-import { SpectronAsyncClient } from 'tests/electron/common/view-controllers/spectron-async-client';
 import { settingsPanelSelectors } from 'tests/end-to-end/common/element-identifiers/details-view-selectors';
 import { ViewController } from './view-controller';
 
 export class ResultsViewController extends ViewController {
-    constructor(client: SpectronAsyncClient) {
-        super(client);
+    constructor(page: Page) {
+        super(page);
     }
 
     public async waitForViewVisible(): Promise<void> {
@@ -39,12 +39,12 @@ export class ResultsViewController extends ViewController {
     }
 
     public createCardsViewController(): CardsViewController {
-        return new CardsViewController(this.client);
+        return new CardsViewController(this.page);
     }
 
     public async setToggleState(toggleSelector: string, newState: boolean): Promise<void> {
         await this.waitForSelector(toggleSelector);
-        const oldState = await this.client.getAttribute(toggleSelector, 'aria-checked');
+        const oldState = await this.page.getAttribute(toggleSelector, 'aria-checked');
 
         const oldStateBool = oldState.toLowerCase() === 'true';
         if (oldStateBool !== newState) {
