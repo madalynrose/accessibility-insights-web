@@ -18,6 +18,7 @@
     @media screen and (forced-colors: active) {
         color: inherit !important;
     }
+    @include fluent-forced-color-adjust-override;
 }
 
 .remove-button {
@@ -27,4 +28,5 @@
     @media screen and (forced-colors: active) {
         color: inherit;
     }
+    @include fluent-forced-color-adjust-override;
 }

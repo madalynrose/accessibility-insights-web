@@ -9,3 +9,9 @@
         }
     }
 }
+
+@mixin fluent-forced-color-adjust-override {
+    @media screen and (forced-colors: active) {
+        forced-color-adjust: unset;
+    }
+}

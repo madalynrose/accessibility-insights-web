@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 @import '../../common/styles/colors.scss';
+@import '../../common/styles/common.scss';
 
 .failure-instance-panel {
     .observed-failure-textfield {
@@ -55,4 +56,5 @@
     @media screen and (forced-colors: active) {
         color: inherit !important;
     }
+    @include fluent-forced-color-adjust-override;
 }
