@@ -10,14 +10,6 @@ div.kebab-menu-callout {
     > div {
         border-radius: 4px;
     }
-
-    button:hover,
-    button:focus {
-        @include fluent-forced-color-adjust-override;
-        @media screen and (forced-colors: active) {
-            color: ActiveText;
-        }
-    }
 }
 
 .kebab-menu {
@@ -32,10 +24,8 @@ div.kebab-menu-callout {
         }
         &:hover {
             background-color: $menu-item-background-hover;
-            i {
-                @media screen and (forced-colors: active) {
-                    color: ActiveText;
-                }
+            @media screen and (forced-colors: active) {
+                background-color: inherit;
             }
         }
         &:active {
@@ -76,9 +66,9 @@ button.kebab-menu-button {
             stroke: $always-black;
         }
         @media screen and (forced-colors: active) {
-            color: ActiveText;
+            color: inherit;
             svg > circle {
-                stroke: ActiveText;
+                stroke: inherit;
             }
         }
     }
