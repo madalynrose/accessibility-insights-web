@@ -523,8 +523,11 @@ describe('SVGDrawer', () => {
             tabIndexLabel: {
                 remove: removeMock.object,
             } as any,
+            failureLabel: {
+                remove: removeMock.object,
+            } as any,
         };
-        removeMock.setup(r => r()).verifiable(Times.exactly(3));
+        removeMock.setup(r => r()).verifiable(Times.exactly(4));
 
         const testSubject = new SVGDrawer(
             null,
@@ -809,6 +812,7 @@ describe('SVGDrawer', () => {
             <div id='id2'></div>
             <div id='id3'></div>
             <div id='id4'></div>
+            <div id='id5'></div>
         `;
 
         // pass true or false in createTestDrawingConfig falseto set showDetailedTabOrder parameter in config
@@ -846,6 +850,15 @@ describe('SVGDrawer', () => {
                 isVisualizationEnabled: false,
                 ruleResults: null,
                 propertyBag: { tabOrder: 3 },
+                itemType: TabbedItemType.ErroredItem,
+            },
+            {
+                target: ['#id5'],
+                requirementResults: null,
+                isFailure: true,
+                isVisualizationEnabled: false,
+                ruleResults: null,
+                propertyBag: {},
                 itemType: TabbedItemType.ErroredItem,
             },
         ];
@@ -891,10 +904,10 @@ describe('SVGDrawer', () => {
 
         drawerUtilsMock.verifyAll();
 
-        expect(circles.length).toBe(3);
+        expect(circles.length).toBe(4);
         expect(lines.length).toBe(1);
-        expect(labels.length).toBe(2);
-        expect(failureLabels.length).toBe(1);
+        expect(labels.length).toBe(4);
+        expect(failureLabels.length).toBe(3);
     });
 
     test('break graph', async () => {

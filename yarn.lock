@@ -2314,10 +2314,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chrome@0.0.178":
-  version "0.0.178"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.178.tgz#fba7969208cef79ae752dc1138ff05de39f5ffde"
-  integrity sha512-U+G5YG2pH0qvLrYVJ9aT5VbPXYR3fAFyCuRBRAA14Pv7GrkFzDJuXPspgdeLYaKzGEp4rymUkuqUOuFz18LI1g==
+"@types/chrome@0.0.179":
+  version "0.0.179"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.179.tgz#57f93c9bd2e4ebf3a517698868d2012b870bb4df"
+  integrity sha512-60zloNApIf88RwiG3Q7E+4NBG+znchhWmcaEVAAhUZahQbft5LWBzij4sinsfpAwbTtuWdFfUSpZsFhXTEFPVw==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
@@ -3151,10 +3151,10 @@ app-builder-lib@22.14.13, app-builder-lib@^22.14.13:
     semver "^7.3.5"
     temp-file "^3.4.0"
 
-appium-adb@^9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/appium-adb/-/appium-adb-9.1.0.tgz#e2d3a379e881c1f6d611cad623367d2cac28119a"
-  integrity sha512-cNKJ/fF2Gv61SBlpWexX/Hxwi6cIw3lHZJ81hdhj8TnFjBKyBWQZJzko+RpROdJDdhTUChYFZG4oF/xDX6m2JQ==
+appium-adb@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/appium-adb/-/appium-adb-9.2.0.tgz#3039b86e58bc6d30a8844ddb30e460e3f6cbe8ec"
+  integrity sha512-+ZNRHys+ZOSxlWgoYCgCtvG1eKGZzTSWKUDyZwV2lhLi/BVTBsXuVz+TUjYVMxQl0o9+UER/17YvPER2BqtR7g==
   dependencies:
     "@appium/support" "^2.55.3"
     "@babel/runtime" "^7.0.0"
