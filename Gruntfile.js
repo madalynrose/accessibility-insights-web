@@ -458,6 +458,7 @@ module.exports = function (grunt) {
                 48: config.options.icon48,
                 128: config.options.icon128,
             },
+            permissions: ['alarms', 'storage', 'webNavigation'],
         });
 
         if (config.options.manifestVersion === 3) {
@@ -473,7 +474,6 @@ module.exports = function (grunt) {
                 background: {
                     service_worker: 'bundle/serviceWorker.bundle.js',
                 },
-                host_permissions: [],
                 web_accessible_resources: [
                     {
                         resources: [

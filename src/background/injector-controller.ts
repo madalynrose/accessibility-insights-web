@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import { AlarmAdapter } from 'background/alarm-utils';
 import { InspectMode } from 'background/inspect-modes';
 import { Logger } from 'common/logging/logger';
 import { Messages } from '../common/messages';
-import { WindowUtils } from '../common/window-utils';
 import { ContentScriptInjector } from './injector/content-script-injector';
 import { Interpreter } from './interpreter';
 import { InspectStore } from './stores/inspect-store';
@@ -21,7 +21,7 @@ export class InjectorController {
         private readonly interpreter: Interpreter,
         private readonly tabStore: TabStore,
         private readonly inspectStore: InspectStore,
-        private readonly windowUtils: WindowUtils,
+        private readonly alarmUtils: AlarmAdapter,
         private readonly logger: Logger,
     ) {}
 
@@ -43,12 +43,16 @@ export class InjectorController {
             inspectStoreInjectingRequested || visualizationStoreState.injectingRequested;
 
         if (isInjectingRequested && !visualizationStoreState.injectingStarted) {
-            this.windowUtils.setTimeout(() => {
-                this.interpreter.interpret({
-                    messageType: Messages.Visualizations.State.InjectionStarted,
-                    tabId: tabId,
-                });
-            }, InjectorController.injectionStartedWaitTime);
+            this.alarmUtils.createAlarmWithCallback(
+                `injection-started-message-alarm-${tabId}`,
+                InjectorController.injectionStartedWaitTime,
+                () => {
+                    this.interpreter.interpret({
+                        messageType: Messages.Visualizations.State.InjectionStarted,
+                        tabId: tabId,
+                    });
+                },
+            );
 
             this.injector
                 .injectScripts(tabId)

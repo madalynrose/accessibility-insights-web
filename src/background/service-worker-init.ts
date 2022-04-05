@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { AppInsights } from 'applicationinsights-js';
 import { Assessments } from 'assessments/assessments';
+import { AlarmAdapter } from 'background/alarm-utils';
 import { BrowserMessageBroadcasterFactory } from 'background/browser-message-broadcaster-factory';
 import { DevToolsListener } from 'background/dev-tools-listener';
 import { ExtensionDetailsViewController } from 'background/extension-details-view-controller';
@@ -39,7 +39,6 @@ import { NotificationCreator } from 'common/notification-creator';
 import { createDefaultPromiseFactory } from 'common/promises/promise-factory';
 import { TelemetryDataFactory } from 'common/telemetry-data-factory';
 import { UrlValidator } from 'common/url-validator';
-import { WindowUtils } from 'common/window-utils';
 import { title, toolName } from 'content/strings/application';
 import { IssueFilingServiceProviderImpl } from 'issue-filing/issue-filing-service-provider-impl';
 import UAParser from 'ua-parser-js';
@@ -75,7 +74,6 @@ async function initialize(): Promise<void> {
     const telemetryLogger = new TelemetryLogger(logger);
 
     const { installationData } = userData;
-    const windowUtils = new WindowUtils();
 
     const applicationTelemetryDataFactory = getApplicationTelemetryDataFactory(
         installationData,
@@ -95,7 +93,7 @@ async function initialize(): Promise<void> {
     );
     debugToolsTelemetryClient.initialize();
 
-    const telemetryClient = getTelemetryClient(applicationTelemetryDataFactory, AppInsights, [
+    const telemetryClient = getTelemetryClient(applicationTelemetryDataFactory, [
         consoleTelemetryClient,
         debugToolsTelemetryClient,
     ]);
@@ -178,6 +176,7 @@ async function initialize(): Promise<void> {
 
     const promiseFactory = createDefaultPromiseFactory();
 
+    const alarmUtils = new AlarmAdapter();
     const tabContextFactory = new TabContextFactory(
         visualizationConfigurationFactory,
         telemetryEventHandler,
@@ -186,7 +185,7 @@ async function initialize(): Promise<void> {
         promiseFactory,
         logger,
         usageLogger,
-        windowUtils,
+        alarmUtils,
     );
 
     const targetPageController = new TargetPageController(

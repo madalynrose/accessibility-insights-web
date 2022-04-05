@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import { AlarmAdapter } from 'background/alarm-utils';
 import { ExtensionDetailsViewController } from 'background/extension-details-view-controller';
 import { Interpreter } from 'background/interpreter';
 import { CardSelectionStore } from 'background/stores/card-selection-store';
@@ -19,7 +20,6 @@ import { VisualizationConfigurationFactory } from 'common/configs/visualization-
 import { WebVisualizationConfigurationFactory } from 'common/configs/web-visualization-configuration-factory';
 import { Logger } from 'common/logging/logger';
 import { NotificationCreator } from 'common/notification-creator';
-import { WindowUtils } from 'common/window-utils';
 import { IMock, It, Mock, MockBehavior, Times } from 'typemoq';
 import { UnifiedScanResultStore } from '../../../../background/stores/unified-scan-result-store';
 import { UsageLogger } from '../../../../background/usage-logger';
@@ -41,7 +41,7 @@ describe('TabContextFactoryTest', () => {
     let mockLogger: IMock<Logger>;
     let mockUsageLogger: IMock<UsageLogger>;
     let mockNotificationCreator: IMock<NotificationCreator>;
-    let mockWindowUtils: IMock<WindowUtils>;
+    let mockAlarmUtils: IMock<AlarmAdapter>;
 
     beforeEach(() => {
         mockBrowserAdapter = Mock.ofType<BrowserAdapter>();
@@ -49,7 +49,7 @@ describe('TabContextFactoryTest', () => {
         mockUsageLogger = Mock.ofType<UsageLogger>();
         mockDetailsViewController = Mock.ofType<ExtensionDetailsViewController>();
         mockNotificationCreator = Mock.ofType<NotificationCreator>();
-        mockWindowUtils = Mock.ofType<WindowUtils>();
+        mockAlarmUtils = Mock.ofType<AlarmAdapter>();
     });
 
     it('createInterpreter', () => {
@@ -105,7 +105,7 @@ describe('TabContextFactoryTest', () => {
             promiseFactoryMock.object,
             mockLogger.object,
             mockUsageLogger.object,
-            mockWindowUtils.object,
+            mockAlarmUtils.object,
         );
 
         const tabContext = testObject.createTabContext(

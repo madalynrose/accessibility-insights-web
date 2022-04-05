@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { AlarmAdapter } from 'background/alarm-utils';
 import { InjectorController } from 'background/injector-controller';
 import { ContentScriptInjector } from 'background/injector/content-script-injector';
 import { InspectMode } from 'background/inspect-modes';
@@ -10,7 +11,6 @@ import { TabStore } from 'background/stores/tab-store';
 import { VisualizationStore } from 'background/stores/visualization-store';
 import { Messages } from 'common/messages';
 import { VisualizationStoreData } from 'common/types/store-data/visualization-store-data';
-import { WindowUtils } from 'common/window-utils';
 import { failTestOnErrorLogger } from 'tests/unit/common/fail-test-on-error-logger';
 import { itIsFunction } from 'tests/unit/common/it-is-function';
 import { VisualizationStoreDataBuilder } from 'tests/unit/common/visualization-store-data-builder';
@@ -34,7 +34,7 @@ describe('InjectorControllerTest', () => {
             .setupVizStoreGetState(visualizationData)
             .setupInspectStore({ inspectMode: InspectMode.off })
             .setupInjectScriptsCall(tabId, 2)
-            .setupTimeoutHandler(2);
+            .setupAlarmHandler(2);
 
         validator.buildInjectorController().initialize();
         validator.verifyAll();
@@ -59,7 +59,7 @@ describe('InjectorControllerTest', () => {
             .setupVizStoreGetState(visualizationData)
             .setupInspectStore({ inspectMode: InspectMode.scopingAddInclude })
             .setupInjectScriptsCall(tabId, 1)
-            .setupTimeoutHandler(1);
+            .setupAlarmHandler(1);
 
         validator.buildInjectorController().initialize();
         validator.verifyAll();
@@ -86,7 +86,7 @@ describe('InjectorControllerTest', () => {
             .setupInspectStore({ inspectMode: InspectMode.scopingAddInclude })
             .setupVerifyInjectionCompletedActionCalled(tabId)
             .setupInjectScriptsCall(tabId, 1)
-            .setupTimeoutHandler(2);
+            .setupAlarmHandler(2);
 
         validator.buildInjectorController().initialize();
         validator.resetVerify();
@@ -140,8 +140,7 @@ class InjectorControllerValidator {
     private mockTabStore = Mock.ofType(TabStore, MockBehavior.Strict);
     private injectedScriptsDeferred: Promise<void>;
     private injectedScriptsDeferredResolver: () => void;
-
-    private mockWindowUtils = Mock.ofType(WindowUtils, MockBehavior.Strict);
+    private mockAlarmUtils = Mock.ofType(AlarmAdapter, MockBehavior.Strict);
     private setTimeoutHandler: Function;
 
     public buildInjectorController(): InjectorController {
@@ -177,19 +176,15 @@ class InjectorControllerValidator {
             this.mockInterpreter.object,
             this.mockTabStore.object,
             this.mockInspectStore.object,
-            this.mockWindowUtils.object,
+            this.mockAlarmUtils.object,
             failTestOnErrorLogger,
         );
     }
 
-    public setupTimeoutHandler(times: number): InjectorControllerValidator {
-        this.mockWindowUtils
-            .setup(x => x.setTimeout(itIsFunction, It.isAnyNumber()))
-            .callback(handler => {
-                this.setTimeoutHandler = handler;
-            })
+    public setupAlarmHandler(times: number): InjectorControllerValidator {
+        this.mockAlarmUtils
+            .setup(x => x.createAlarmWithCallback(It.isAnyString(), It.isAnyNumber(), itIsFunction))
             .verifiable(Times.exactly(times));
-
         return this;
     }
 
@@ -292,7 +287,7 @@ class InjectorControllerValidator {
         this.mockTabStore.verifyAll();
         this.mockInjector.verifyAll();
         this.mockInterpreter.verifyAll();
-        this.mockWindowUtils.verifyAll();
+        this.mockAlarmUtils.verifyAll();
     }
 
     public resetVerify(): void {
@@ -301,6 +296,6 @@ class InjectorControllerValidator {
         this.mockTabStore.reset();
         this.mockInjector.reset();
         this.mockInterpreter.reset();
-        this.mockWindowUtils.reset();
+        this.mockAlarmUtils.reset();
     }
 }

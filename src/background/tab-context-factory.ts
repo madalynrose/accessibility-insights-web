@@ -3,13 +3,13 @@
 import { NeedsReviewCardSelectionActionCreator } from 'background/actions/needs-review-card-selection-action-creator';
 import { NeedsReviewScanResultActionCreator } from 'background/actions/needs-review-scan-result-action-creator';
 import { TabStopRequirementActionCreator } from 'background/actions/tab-stop-requirement-action-creator';
+import { AlarmAdapter } from 'background/alarm-utils';
 import { BrowserAdapter } from 'common/browser-adapters/browser-adapter';
 import { VisualizationConfigurationFactory } from 'common/configs/visualization-configuration-factory';
 import { Logger } from 'common/logging/logger';
 import { NotificationCreator } from 'common/notification-creator';
 import { PromiseFactory } from 'common/promises/promise-factory';
 import { StateDispatcher } from 'common/state-dispatcher';
-import { WindowUtils } from 'common/window-utils';
 import { ActionCreator } from './actions/action-creator';
 import { ActionHub } from './actions/action-hub';
 import { CardSelectionActionCreator } from './actions/card-selection-action-creator';
@@ -43,7 +43,7 @@ export class TabContextFactory {
         private readonly promiseFactory: PromiseFactory,
         private readonly logger: Logger,
         private readonly usageLogger: UsageLogger,
-        private readonly windowUtils: WindowUtils,
+        private readonly alarmUtils: AlarmAdapter,
     ) {}
 
     public createTabContext(
@@ -161,7 +161,7 @@ export class TabContextFactory {
             interpreter,
             storeHub.tabStore,
             storeHub.inspectStore,
-            this.windowUtils,
+            this.alarmUtils,
             this.logger,
         );
 

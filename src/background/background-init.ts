@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { Assessments } from 'assessments/assessments';
+import { AlarmAdapter } from 'background/alarm-utils';
 import { PostMessageContentHandler } from 'background/post-message-content-handler';
 import { PostMessageContentRepository } from 'background/post-message-content-repository';
 import { ConsoleTelemetryClient } from 'background/telemetry/console-telemetry-client';
@@ -8,7 +9,6 @@ import { DebugToolsTelemetryClient } from 'background/telemetry/debug-tools-tele
 import { createToolData } from 'common/application-properties-provider';
 import { BrowserAdapterFactory } from 'common/browser-adapters/browser-adapter-factory';
 import { WebVisualizationConfigurationFactory } from 'common/configs/web-visualization-configuration-factory';
-import { WindowUtils } from 'common/window-utils';
 import * as UAParser from 'ua-parser-js';
 import { AxeInfo } from '../common/axe-info';
 import { DateProvider } from '../common/date-provider';
@@ -63,8 +63,6 @@ async function initialize(): Promise<void> {
         browserAdapter,
         deprecatedStorageDataKeys,
     );
-
-    const windowUtils = new WindowUtils(); //DOM
 
     const urlValidator = new UrlValidator(browserAdapter);
     const indexedDBInstance: IndexedDBAPI = new IndexedDBUtil(getIndexedDBStore());
@@ -186,7 +184,7 @@ async function initialize(): Promise<void> {
     );
 
     const promiseFactory = createDefaultPromiseFactory();
-
+    const alarmUtils = new AlarmAdapter();
     const tabContextFactory = new TabContextFactory(
         visualizationConfigurationFactory,
         telemetryEventHandler,
@@ -195,7 +193,7 @@ async function initialize(): Promise<void> {
         promiseFactory,
         logger,
         usageLogger,
-        windowUtils,
+        alarmUtils,
     );
 
     const targetPageController = new TargetPageController(
