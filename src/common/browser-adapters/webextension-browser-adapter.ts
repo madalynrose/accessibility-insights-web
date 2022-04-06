@@ -74,7 +74,7 @@ export abstract class WebExtensionBrowserAdapter
         });
     }
 
-    private verifyPathCompatibility(path?: string): void {
+    protected verifyPathCompatibility(path?: string): void {
         const looksRelative = path != null && !path.startsWith('/') && !path.includes('://');
         if (looksRelative) {
             throw new Error(
@@ -206,7 +206,7 @@ export abstract class WebExtensionBrowserAdapter
     }
 
     public getUrl(urlPart: string): string {
-        return chrome.extension.getURL(urlPart);
+        return chrome.runtime.getURL(urlPart);
     }
 
     public requestPermissions(permissions: Permissions.Permissions): Promise<boolean> {

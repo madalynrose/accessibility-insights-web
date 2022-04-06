@@ -28,7 +28,7 @@ import { TelemetryStateListener } from 'background/telemetry/telemetry-state-lis
 import { UsageLogger } from 'background/usage-logger';
 import { createToolData } from 'common/application-properties-provider';
 import { AxeInfo } from 'common/axe-info';
-import { BrowserAdapterFactory } from 'common/browser-adapters/browser-adapter-factory';
+import { ServiceWorkerBrowserAdapter } from 'common/browser-adapters/service-worker-browser-adapter';
 import { WebVisualizationConfigurationFactory } from 'common/configs/web-visualization-configuration-factory';
 import { DateProvider } from 'common/date-provider';
 import { getIndexedDBStore } from 'common/indexedDB/get-indexeddb-store';
@@ -41,14 +41,11 @@ import { TelemetryDataFactory } from 'common/telemetry-data-factory';
 import { UrlValidator } from 'common/url-validator';
 import { title, toolName } from 'content/strings/application';
 import { IssueFilingServiceProviderImpl } from 'issue-filing/issue-filing-service-provider-impl';
-import UAParser from 'ua-parser-js';
 import { deprecatedStorageDataKeys, storageDataKeys } from './local-storage-data-keys';
 import { cleanKeysFromStorage } from './user-stored-data-cleaner';
 
 async function initialize(): Promise<void> {
-    const userAgentParser = new UAParser(navigator.userAgent);
-    const browserAdapterFactory = new BrowserAdapterFactory(userAgentParser);
-    const browserAdapter = browserAdapterFactory.makeFromUserAgent();
+    const browserAdapter = new ServiceWorkerBrowserAdapter();
 
     // This only removes keys that are unused by current versions of the extension, so it's okay for it to race with everything else
     const cleanKeysFromStoragePromise = cleanKeysFromStorage(
