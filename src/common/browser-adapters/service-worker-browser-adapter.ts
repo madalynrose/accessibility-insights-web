@@ -15,7 +15,7 @@ export class ServiceWorkerBrowserAdapter extends WebExtensionBrowserAdapter {
         const injectionInfo = {
             target: { tabId, allFrames: details.allFrames },
             files: [details.file],
-        };
+        } as chrome.scripting.ScriptInjection;
         this.verifyPathCompatibility(details.file);
         return chrome.scripting.executeScript(injectionInfo);
     }
@@ -25,7 +25,7 @@ export class ServiceWorkerBrowserAdapter extends WebExtensionBrowserAdapter {
         const injectionInfo = {
             target: { tabId, allFrames: details.allFrames },
             files: [details.file],
-        };
+        } as chrome.scripting.CSSInjection;
         return chrome.scripting.insertCSS(injectionInfo);
     }
 }
