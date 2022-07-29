@@ -27,7 +27,7 @@ export type RulesWithInstancesDeps = RuleContentDeps &
 
 export type RulesWithInstancesProps = {
     deps: RulesWithInstancesDeps;
-    fixInstructionProcessor: FixInstructionProcessor;
+    fixInstructionProcessor?: FixInstructionProcessor;
     rules: CardRuleResult[];
     outcomeType: InstanceOutcomeType;
     userConfigurationStoreData: UserConfigurationStoreData;

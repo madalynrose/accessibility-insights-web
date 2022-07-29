@@ -14,6 +14,6 @@ export type CommonInstancesSectionProps = {
     userConfigurationStoreData: UserConfigurationStoreData;
     scanMetadata: ScanMetadata;
     shouldAlertFailuresCount?: boolean;
-    cardSelectionMessageCreator?: CardSelectionMessageCreator;
+    cardSelectionMessageCreator: CardSelectionMessageCreator;
     sectionHeadingLevel: HeadingLevel;
 };
