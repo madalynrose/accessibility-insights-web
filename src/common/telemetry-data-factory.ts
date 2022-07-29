@@ -204,13 +204,13 @@ export class TelemetryDataFactory {
 
     public forOpenDetailsView(
         event: SupportedMouseEvent,
-        visualizationType: VisualizationType,
+        visualizationType: VisualizationType | null,
         source: TelemetryEventSource,
     ): DetailsViewOpenTelemetryData {
         return {
             ...this.withTriggeredByAndSource(event, source),
-            selectedTest: VisualizationType[visualizationType],
-        };
+            selectedTest: visualizationType != null ? VisualizationType[visualizationType] : null
+        }
     }
 
     public forDetailsViewOpened(
