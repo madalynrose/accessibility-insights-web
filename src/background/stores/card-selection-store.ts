@@ -156,7 +156,7 @@ export class CardSelectionStore extends PersistentStore<CardSelectionStoreData> 
         this.emitChanged();
     };
 
-    private onScanCompleted = (payload: UnifiedScanCompletedPayload): void => {
+    private onScanCompleted = async (payload: UnifiedScanCompletedPayload): Promise<void> => {
         this.state = this.getDefaultState();
         this.state.rules = {};
 
@@ -204,7 +204,7 @@ export class CardSelectionStore extends PersistentStore<CardSelectionStoreData> 
         this.emitChanged();
     };
 
-    private onResetStoreData = (): void => {
+    private onResetStoreData = async (): Promise<void> => {
         this.state = this.getDefaultState();
         this.emitChanged();
     };

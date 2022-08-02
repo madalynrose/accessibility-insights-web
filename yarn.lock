@@ -3592,10 +3592,10 @@ app-builder-lib@^23.3.3:
     tar "^6.1.11"
     temp-file "^3.4.0"
 
-appium-adb@^9.10.1:
-  version "9.10.1"
-  resolved "https://registry.yarnpkg.com/appium-adb/-/appium-adb-9.10.1.tgz#fd91a913e19030132e41a2f031fde657d4a3bc9b"
-  integrity sha512-Pn4NVGCx+tk0qOpyowj0gVlIIeDdLnxTBKiOGxUB6F7yjnxsVHcJPiQsumpiQA8y9tOCT2dxvrPmzj8YuxgNxA==
+appium-adb@^9.10.2:
+  version "9.10.2"
+  resolved "https://registry.yarnpkg.com/appium-adb/-/appium-adb-9.10.2.tgz#6d89692b2c9f5871a0a8b737ae01ea5634e7c628"
+  integrity sha512-aeH0BJDUZzLRBlRwBtMZVIPmHqnRu8z+aQeIAd23JD0y3+d7d3Bk+Qa5q1+VhOuSSNU+ElWkJqnmaj8cRu+3FA==
   dependencies:
     "@appium/support" "^2.55.3"
     "@babel/runtime" "^7.0.0"
@@ -4910,10 +4910,10 @@ copy-to-clipboard@^3.3.1:
   dependencies:
     toggle-selection "^1.0.6"
 
-core-js-bundle@^3.24.0:
-  version "3.24.0"
-  resolved "https://registry.yarnpkg.com/core-js-bundle/-/core-js-bundle-3.24.0.tgz#df16fec2917043fc47abbaa6de568bc39cb7faf6"
-  integrity sha512-zK72s0bzsw9HyfL/x1ks2xdX/Ebt8URosnG+i/ZQ10isGBpH6a2VPAEWnLRRpxjRTlEeDW3scJng8lq8rc9YtA==
+core-js-bundle@^3.24.1:
+  version "3.24.1"
+  resolved "https://registry.yarnpkg.com/core-js-bundle/-/core-js-bundle-3.24.1.tgz#97630b52506c6431c5719f6b0fa58d7a61fde3b0"
+  integrity sha512-R7jSagXabROPSXGIylnFWE8xy8PTmAR15WDRsAYyg6B9BmJ3EHHybkJn9w4MoJAMN31jYNQ12OroOPDLHl5vjg==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -10511,17 +10511,17 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-playwright-core@1.24.1:
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.24.1.tgz#032eefaa8f674a4253a6c35a86787f2cbfcd8829"
-  integrity sha512-1RoSDe/oTQS1Ct7Pb8i+vcFKbKYpmVIBXk0IUiD8RvCUMnNl7EJF1OSQ9E8TZ5RYamWkW2Psir9e8Doyz1FnhQ==
+playwright-core@1.24.2:
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.24.2.tgz#47bc5adf3dcfcc297a5a7a332449c9009987db26"
+  integrity sha512-zfAoDoPY/0sDLsgSgLZwWmSCevIg1ym7CppBwllguVBNiHeixZkc1AdMuYUPZC6AdEYc4CxWEyLMBTw2YcmRrA==
 
-playwright@^1.24.1:
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.24.1.tgz#2d047dc28468e80952cd4cee3ae2223a3ad94abb"
-  integrity sha512-ALAdckGTTZq6cPD/NlWE+OO5cgNBi9BHKk6FoDztlcVNJ07F1buwydTuf8wBu1Jzi+SGOpEfLR/83+2fS84ksQ==
+playwright@^1.24.2:
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.24.2.tgz#51e60f128b386023e5ee83deca23453aaf73ba6d"
+  integrity sha512-iMWDLgaFRT+7dXsNeYwgl8nhLHsUrzFyaRVC+ftr++P1dVs70mPrFKBZrGp1fOKigHV9d1syC03IpPbqLKlPsg==
   dependencies:
-    playwright-core "1.24.1"
+    playwright-core "1.24.2"
 
 plist@3.0.5, plist@>=3.0.5, plist@^3.0.1, plist@^3.0.4:
   version "3.0.5"

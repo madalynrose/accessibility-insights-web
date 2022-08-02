@@ -48,6 +48,7 @@ export class ActionCreator {
         [VisualizationType.Landmarks]: TelemetryEvents.LANDMARKS_TOGGLE,
         [VisualizationType.TabStops]: TelemetryEvents.TABSTOPS_TOGGLE,
         [VisualizationType.NeedsReview]: TelemetryEvents.NEEDS_REVIEW_TOGGLE,
+        [VisualizationType.AccessibleNames]: TelemetryEvents.ACCESSIBLENAMES_TOGGLE,
     };
     private inspectActions: InspectActions;
     private cardSelectionActions: CardSelectionActions;
@@ -255,8 +256,11 @@ export class ActionCreator {
         await this.targetTabController.showTargetTab(tabId, payload.testType, payload.key);
     };
 
-    private onTabbedElementAdded = (payload: AddTabbedElementPayload): void => {
-        this.visualizationScanResultActions.addTabbedElement.invoke(payload, this.executingScope);
+    private onTabbedElementAdded = async (payload: AddTabbedElementPayload): Promise<void> => {
+        await this.visualizationScanResultActions.addTabbedElement.invoke(
+            payload,
+            this.executingScope,
+        );
     };
 
     private onRecordingCompleted = (payload: BaseActionPayload): void => {
@@ -266,8 +270,11 @@ export class ActionCreator {
         );
     };
 
-    private onRecordingTerminated = (payload: BaseActionPayload): void => {
-        this.visualizationScanResultActions.disableTabStop.invoke(payload, this.executingScope);
+    private onRecordingTerminated = async (payload: BaseActionPayload): Promise<void> => {
+        await this.visualizationScanResultActions.disableTabStop.invoke(
+            payload,
+            this.executingScope,
+        );
     };
 
     private onUpdateFocusedInstance = async (payload: string[]): Promise<void> => {
@@ -280,7 +287,10 @@ export class ActionCreator {
     ): Promise<void> => {
         const telemetryEventName = TelemetryEvents.ADHOC_SCAN_COMPLETED;
         this.telemetryEventHandler.publishTelemetry(telemetryEventName, payload);
-        this.visualizationScanResultActions.scanCompleted.invoke(payload, this.executingScope);
+        await this.visualizationScanResultActions.scanCompleted.invoke(
+            payload,
+            this.executingScope,
+        );
         await this.visualizationActions.scanCompleted.invoke(null, this.executingScope);
         this.notificationCreator.createNotificationByVisualizationKey(
             payload.selectorMap,
@@ -398,8 +408,8 @@ export class ActionCreator {
         await this.visualizationActions.getCurrentState.invoke(null, this.executingScope);
     };
 
-    private getScanResultsCurrentState = (): void => {
-        this.visualizationScanResultActions.getCurrentState.invoke(null, this.executingScope);
+    private getScanResultsCurrentState = async (): Promise<void> => {
+        await this.visualizationScanResultActions.getCurrentState.invoke(null, this.executingScope);
     };
 
     private onSetHoveredOverSelector = async (payload: string[]): Promise<void> => {
