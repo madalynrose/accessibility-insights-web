@@ -63,7 +63,7 @@ export const ResultSectionContent = NamedFC<ResultSectionContentProps>(
                     targetAppInfo={targetAppInfo}
                     outcomeCounter={outcomeCounter}
                     headingLevel={headingLevel}
-                    cardSelectionMessageCreator={props.cardSelectionMessageCreator}
+                    cardSelectionMessageCreator={props.cardSelectionMessageCreator!}
                 />
             </>
         );

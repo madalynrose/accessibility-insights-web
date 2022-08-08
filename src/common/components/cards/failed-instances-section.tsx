@@ -19,7 +19,11 @@ export const FailedInstancesSection = NamedFC<CommonInstancesSectionProps>(
         cardSelectionMessageCreator,
         sectionHeadingLevel,
     }) => {
-        if (cardsViewData == null || cardsViewData.cards == null) {
+        if (
+            cardsViewData == null ||
+            cardsViewData.cards == null ||
+            cardSelectionMessageCreator === undefined
+        ) {
             return null;
         }
 
@@ -42,7 +46,7 @@ export const FailedInstancesSection = NamedFC<CommonInstancesSectionProps>(
                 allCardsCollapsed={cardsViewData.allCardsCollapsed}
                 outcomeCounter={OutcomeCounter.countByCards}
                 sectionHeadingLevel={sectionHeadingLevel}
-                cardSelectionMessageCreator={cardSelectionMessageCreator}
+                cardSelectionMessageCreator={cardSelectionMessageCreator!}
             />
         );
     },

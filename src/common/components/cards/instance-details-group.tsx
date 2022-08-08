@@ -26,7 +26,7 @@ export type InstanceDetailsGroupProps = {
     rule: CardRuleResult;
     userConfigurationStoreData: UserConfigurationStoreData;
     targetAppInfo: TargetAppData;
-    cardSelectionMessageCreator: CardSelectionMessageCreator;
+    cardSelectionMessageCreator?: CardSelectionMessageCreator;
 };
 
 export const InstanceDetailsGroup = NamedFC<InstanceDetailsGroupProps>(
@@ -46,7 +46,9 @@ export const InstanceDetailsGroup = NamedFC<InstanceDetailsGroupProps>(
             url: rule.url,
             guidance: rule.guidance,
         };
-
+        if (cardSelectionMessageCreator === undefined) {
+            return null;
+        }
         return (
             <ul
                 data-automation-id={ruleContentAutomationId}

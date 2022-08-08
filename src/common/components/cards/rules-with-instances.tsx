@@ -27,14 +27,14 @@ export type RulesWithInstancesDeps = RuleContentDeps &
 
 export type RulesWithInstancesProps = {
     deps: RulesWithInstancesDeps;
-    fixInstructionProcessor: FixInstructionProcessor;
+    fixInstructionProcessor?: FixInstructionProcessor;
     rules: CardRuleResult[];
     outcomeType: InstanceOutcomeType;
     userConfigurationStoreData: UserConfigurationStoreData;
     targetAppInfo: TargetAppData;
     outcomeCounter: OutcomeCounter;
     headingLevel: number;
-    cardSelectionMessageCreator: CardSelectionMessageCreator;
+    cardSelectionMessageCreator?: CardSelectionMessageCreator;
 };
 
 export const ruleDetailsGroupAutomationId = 'rule-details-group';
@@ -76,7 +76,7 @@ export const RulesWithInstances = NamedFC<RulesWithInstancesProps>(
                         fixInstructionProcessor={fixInstructionProcessor}
                         userConfigurationStoreData={userConfigurationStoreData}
                         targetAppInfo={targetAppInfo}
-                        cardSelectionMessageCreator={cardSelectionMessageCreator}
+                        cardSelectionMessageCreator={cardSelectionMessageCreator!}
                     />
                 ),
                 containerAutomationId: ruleGroupAutomationId,
@@ -85,7 +85,7 @@ export const RulesWithInstances = NamedFC<RulesWithInstancesProps>(
                 headingLevel,
                 deps: deps,
                 onExpandToggle: (event: React.MouseEvent<HTMLDivElement>) => {
-                    cardSelectionMessageCreator.toggleRuleExpandCollapse(rule.id, event);
+                    cardSelectionMessageCreator!.toggleRuleExpandCollapse(rule.id, event);
                 },
                 isExpanded: rule.isExpanded,
             };

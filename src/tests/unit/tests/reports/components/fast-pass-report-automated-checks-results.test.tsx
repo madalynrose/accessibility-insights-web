@@ -3,6 +3,7 @@
 
 import { FixInstructionProcessor } from 'common/components/fix-instruction-processor';
 import { RecommendColor } from 'common/components/recommend-color';
+import { CardSelectionMessageCreator } from 'common/message-creators/card-selection-message-creator';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { FastPassReportDeps } from 'reports/components/fast-pass-report';
@@ -74,6 +75,7 @@ describe('FastPassReportSummary', () => {
                 },
             },
             sectionHeadingLevel: 3,
+            cardSelectionMessageCreator: {} as CardSelectionMessageCreator,
         };
     });
 

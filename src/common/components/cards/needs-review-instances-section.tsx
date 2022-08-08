@@ -18,7 +18,11 @@ export const NeedsReviewInstancesSection = NamedFC<CommonInstancesSectionProps>(
         cardSelectionMessageCreator,
         sectionHeadingLevel,
     }) => {
-        if (cardsViewData == null || cardsViewData.cards == null) {
+        if (
+            cardsViewData == null ||
+            cardsViewData.cards == null ||
+            cardSelectionMessageCreator === undefined
+        ) {
             return null;
         }
 

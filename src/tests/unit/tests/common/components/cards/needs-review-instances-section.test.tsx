@@ -5,6 +5,7 @@ import {
     CommonInstancesSectionProps,
 } from 'common/components/cards/common-instances-section-props';
 import { NeedsReviewInstancesSection } from 'common/components/cards/needs-review-instances-section';
+import { CardSelectionMessageCreator } from 'common/message-creators/card-selection-message-creator';
 import { CardRuleResultsByStatus } from 'common/types/store-data/card-view-model';
 import { ScanMetadata } from 'common/types/store-data/unified-data-interface';
 import { shallow } from 'enzyme';
@@ -47,6 +48,7 @@ describe('NeedsReviewInstancesSection', () => {
                 shouldAlertFailuresCount,
                 scanMetadata,
                 sectionHeadingLevel: 2,
+                cardSelectionMessageCreator: {} as CardSelectionMessageCreator,
             } as CommonInstancesSectionProps;
 
             const wrapper = shallow(<NeedsReviewInstancesSection {...props} />);

@@ -6,6 +6,7 @@ import {
     ResultSectionProps,
 } from 'common/components/cards/result-section';
 import { HeadingLevel } from 'common/components/heading-element-for-level';
+import { CardSelectionMessageCreator } from 'common/message-creators/card-selection-message-creator';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
@@ -24,6 +25,7 @@ describe('ResultSection', () => {
                     } as ResultSectionDeps,
                     shouldAlertFailuresCount,
                     sectionHeadingLevel: 2,
+                    cardSelectionMessageCreator: {} as CardSelectionMessageCreator,
                 } as ResultSectionProps;
 
                 const wrapper = shallow(<ResultSection {...props} />);
