@@ -59,10 +59,13 @@ export class PopupActionMessageCreator {
 
     public openDetailsView(
         event: SupportedMouseEvent,
-        viewType: VisualizationType,
+        viewType: VisualizationType | null,
         source: TelemetryEventSource,
         pivotType: DetailsViewPivotType,
     ): void {
+        if (viewType == null) {
+            console.log('HERE TOO');
+        }
         const payload: OnDetailsViewOpenPayload = {
             telemetry: this.telemetryFactory.forOpenDetailsView(event, viewType, source),
             detailsViewType: viewType,

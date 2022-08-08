@@ -137,7 +137,7 @@ export type ExportFastPassResultsTelemetryData = {
 } & ExportResultsTelemetryData;
 
 export type DetailsViewOpenTelemetryData = {
-    selectedTest: string;
+    selectedTest?: string;
 } & BaseTelemetryData;
 
 export type DetailsViewOpenedTelemetryData = {

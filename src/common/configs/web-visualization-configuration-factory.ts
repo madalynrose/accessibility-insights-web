@@ -36,6 +36,9 @@ export class WebVisualizationConfigurationFactory implements VisualizationConfig
     }
 
     public getConfiguration(visualizationType: VisualizationType): VisualizationConfiguration {
+        if (visualizationType == null) {
+            console.log('HERE THREE');
+        }
         if (Assessments.isValidType(visualizationType)) {
             const assessment = Assessments.forType(visualizationType);
             const defaults = {
@@ -55,9 +58,9 @@ export class WebVisualizationConfigurationFactory implements VisualizationConfig
             const config = assessment.getVisualizationConfiguration();
             return { ...config, ...defaults };
         }
-
+        //console.log(visualizationType);
         const configuration = this.configurationByType[visualizationType];
-
+        // console.log(configuration, visualizationType);
         if (configuration == null) {
             throw new Error(`Unsupported type: ${visualizationType}`);
         }
