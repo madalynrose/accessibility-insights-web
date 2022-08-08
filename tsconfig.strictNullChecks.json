@@ -590,7 +590,7 @@
         "src/background/injector/**/*",
         "src/common/action/**/*",
         "src/common/browser-adapters/**/*",
-        "src/common/components/cards/**/*",
+        "src/common/components/**/*",
         "src/common/configuration/**/*",
         "src/common/constants/**/*",
         "src/common/flux/**/*",
