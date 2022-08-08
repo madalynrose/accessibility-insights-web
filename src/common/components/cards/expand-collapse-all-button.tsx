@@ -8,14 +8,16 @@ import styles from './expand-collapse-all-button.scss';
 
 export type ExpandCollapseAllButtonProps = {
     allCardsCollapsed: boolean;
-    cardSelectionMessageCreator: CardSelectionMessageCreator;
+    cardSelectionMessageCreator?: CardSelectionMessageCreator;
 };
 
 export const ExpandCollapseAllButton = NamedFC<ExpandCollapseAllButtonProps>(
     'ExpandCollapseAllButton',
     props => {
         const { allCardsCollapsed, cardSelectionMessageCreator } = props;
-
+        if (cardSelectionMessageCreator === undefined) {
+            return null;
+        }
         let expandCollapseAllButtonHandler = cardSelectionMessageCreator.collapseAllRules;
         let buttonText = 'Collapse all';
         let iconName = 'ChevronDown';

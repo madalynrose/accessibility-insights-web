@@ -9,6 +9,7 @@ exports[`ResultSection renders with shouldAlertFailureCount = <false> 1`] = `
     headingLevel={2}
   >
     <ResultSectionTitle
+      cardSelectionMessageCreator={Object {}}
       containerClassName="result-section-class-name"
       deps={
         Object {
@@ -21,6 +22,7 @@ exports[`ResultSection renders with shouldAlertFailureCount = <false> 1`] = `
     />
   </HeadingElementForLevel>
   <ResultSectionContent
+    cardSelectionMessageCreator={Object {}}
     containerClassName="result-section-class-name"
     deps={
       Object {
@@ -43,6 +45,7 @@ exports[`ResultSection renders with shouldAlertFailureCount = <true> 1`] = `
     headingLevel={2}
   >
     <ResultSectionTitle
+      cardSelectionMessageCreator={Object {}}
       containerClassName="result-section-class-name"
       deps={
         Object {
@@ -55,6 +58,7 @@ exports[`ResultSection renders with shouldAlertFailureCount = <true> 1`] = `
     />
   </HeadingElementForLevel>
   <ResultSectionContent
+    cardSelectionMessageCreator={Object {}}
     containerClassName="result-section-class-name"
     deps={
       Object {
@@ -77,6 +81,7 @@ exports[`ResultSection renders with shouldAlertFailureCount = <undefined> 1`] = 
     headingLevel={2}
   >
     <ResultSectionTitle
+      cardSelectionMessageCreator={Object {}}
       containerClassName="result-section-class-name"
       deps={
         Object {
@@ -88,6 +93,7 @@ exports[`ResultSection renders with shouldAlertFailureCount = <undefined> 1`] = 
     />
   </HeadingElementForLevel>
   <ResultSectionContent
+    cardSelectionMessageCreator={Object {}}
     containerClassName="result-section-class-name"
     deps={
       Object {

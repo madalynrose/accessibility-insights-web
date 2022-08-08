@@ -31,6 +31,9 @@ export const ExpandCollapseVisualHelperModifierButtons: CardsVisualizationModifi
     NamedFC<CardsVisualizationModifierButtonsProps>(
         'ExpandCollapseVisualHelperModifierButtons',
         props => {
+            if (props.cardSelectionMessageCreator === undefined) {
+                return null;
+            }
             return (
                 <div className={styles.cardsVisualizationModifiersContainer}>
                     <ExpandCollapseAllButton {...props} />
