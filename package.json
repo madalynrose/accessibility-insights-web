@@ -101,7 +101,7 @@
         "7zip-bin": "^5.2.0",
         "@electron/get": "^1.14.1",
         "@esbuild-plugins/node-resolve": "^0.1.4",
-        "@swc/core": "^1.2.223",
+        "@swc/core": "^1.2.224",
         "@swc/jest": "^0.2.22",
         "@types/chrome": "0.0.193",
         "@types/enzyme": "^3.10.12",
@@ -185,7 +185,7 @@
     },
     "dependencies": {
         "@fluentui/react": "^8.86.3",
-        "@microsoft/applicationinsights-web": "^2.8.5",
+        "@microsoft/applicationinsights-web": "^2.8.6",
         "accessibility-insights-for-android-service-bin": "2.0.0",
         "ajv": "^8.11.0",
         "android-device-list": "^1.2.7",
