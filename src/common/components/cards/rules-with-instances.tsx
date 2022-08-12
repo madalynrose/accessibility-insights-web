@@ -34,7 +34,7 @@ export type RulesWithInstancesProps = {
     targetAppInfo: TargetAppData;
     outcomeCounter: OutcomeCounter;
     headingLevel: number;
-    cardSelectionMessageCreator: CardSelectionMessageCreator;
+    cardSelectionMessageCreator?: CardSelectionMessageCreator;
 };
 
 export const ruleDetailsGroupAutomationId = 'rule-details-group';
@@ -85,7 +85,7 @@ export const RulesWithInstances = NamedFC<RulesWithInstancesProps>(
                 headingLevel,
                 deps: deps,
                 onExpandToggle: (event: React.MouseEvent<HTMLDivElement>) => {
-                    cardSelectionMessageCreator.toggleRuleExpandCollapse(rule.id, event);
+                    cardSelectionMessageCreator?.toggleRuleExpandCollapse(rule.id, event);
                 },
                 isExpanded: rule.isExpanded,
             };

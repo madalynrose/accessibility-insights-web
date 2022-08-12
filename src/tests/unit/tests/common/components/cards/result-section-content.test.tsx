@@ -14,7 +14,6 @@ import { NamedFC } from 'common/react/named-fc';
 import { CardRuleResult } from 'common/types/store-data/card-view-model';
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { IMock, Mock } from 'typemoq';
 
 import { exampleUnifiedRuleResult } from './sample-view-model-data';
 
@@ -22,11 +21,13 @@ describe('ResultSectionContent', () => {
     const emptyRules: CardRuleResult[] = [];
     const someRules: CardRuleResult[] = [exampleUnifiedRuleResult];
     const depsStub = {} as ResultSectionContentDeps;
-    let cardSelectionMessageCreatorMock: IMock<CardSelectionMessageCreator>;
-
-    beforeEach(() => {
-        cardSelectionMessageCreatorMock = Mock.ofType<CardSelectionMessageCreator>();
-    });
+    const cardSelectionMessageCreatorStub: CardSelectionMessageCreator = {
+        toggleCardSelection: () => null,
+        toggleRuleExpandCollapse: () => null,
+        collapseAllRules: () => null,
+        expandAllRules: () => null,
+        toggleVisualHelper: () => null,
+    };
 
     it('renders, with some rules', () => {
         const cardsVisualizationModifierButtonsStub: Readonly<CardsVisualizationModifierButtons> =
@@ -35,13 +36,29 @@ describe('ResultSectionContent', () => {
         const props = {
             deps: {
                 cardsVisualizationModifierButtons: cardsVisualizationModifierButtonsStub,
-            },
+            } as ResultSectionContentDeps,
+            results: someRules,
+            outcomeType: 'pass',
+            cardSelectionMessageCreator: cardSelectionMessageCreatorStub,
+        } as ResultSectionContentProps;
+
+        const wrapper = shallow(<ResultSectionContent {...props} />);
+        expect(wrapper.getElement()).toMatchSnapshot();
+    });
+
+    it('renders without visualization modifier buttons without cardSelectionMessageCreator', () => {
+        const cardsVisualizationModifierButtonsStub: Readonly<CardsVisualizationModifierButtons> =
+            NamedFC<CardsVisualizationModifierButtonsProps>('test', _ => null);
+
+        const props = {
+            deps: {
+                cardsVisualizationModifierButtons: cardsVisualizationModifierButtonsStub,
+            } as ResultSectionContentDeps,
             results: someRules,
             outcomeType: 'pass',
         } as ResultSectionContentProps;
 
         const wrapper = shallow(<ResultSectionContent {...props} />);
-
         expect(wrapper.getElement()).toMatchSnapshot();
     });
 
@@ -57,7 +74,7 @@ describe('ResultSectionContent', () => {
             allCardsCollapsed: true,
             outcomeCounter: null,
             headingLevel: 5,
-            cardSelectionMessageCreator: cardSelectionMessageCreatorMock.object,
+            cardSelectionMessageCreator: cardSelectionMessageCreatorStub,
         };
 
         const wrapper = shallow(<ResultSectionContent {...props} />);
