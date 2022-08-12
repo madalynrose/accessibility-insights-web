@@ -41,7 +41,7 @@ export const NeedsReviewInstancesSection = NamedFC<CommonInstancesSectionProps>(
                 allCardsCollapsed={cardsViewData.allCardsCollapsed}
                 outcomeCounter={OutcomeCounter.countByCards}
                 sectionHeadingLevel={sectionHeadingLevel}
-                cardSelectionMessageCreator={cardSelectionMessageCreator}
+                cardSelectionMessageCreator={cardSelectionMessageCreator!}
             />
         );
     },

@@ -42,7 +42,7 @@ export const FailedInstancesSection = NamedFC<CommonInstancesSectionProps>(
                 allCardsCollapsed={cardsViewData.allCardsCollapsed}
                 outcomeCounter={OutcomeCounter.countByCards}
                 sectionHeadingLevel={sectionHeadingLevel}
-                cardSelectionMessageCreator={cardSelectionMessageCreator}
+                cardSelectionMessageCreator={cardSelectionMessageCreator!}
             />
         );
     },

@@ -60,7 +60,7 @@ export const CombinedReportFailedSection = NamedFC<CombinedReportFailedSectionPr
     },
 );
 
-const nullCardSelectionMessageCreator: CardSelectionMessageCreator = {
+export const nullCardSelectionMessageCreator: CardSelectionMessageCreator = {
     toggleCardSelection: () => null,
     toggleRuleExpandCollapse: () => null,
     collapseAllRules: () => null,

@@ -28,6 +28,7 @@ export const FastPassReportAutomatedChecksResults =
                         {...props}
                         userConfigurationStoreData={null}
                         cardsViewData={props.results.automatedChecks}
+                        cardSelectionMessageCreator={props.cardSelectionMessageCreator}
                     />
                     <IncompleteChecksSection
                         key={2}

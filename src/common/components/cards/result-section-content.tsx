@@ -47,13 +47,14 @@ export const ResultSectionContent = NamedFC<ResultSectionContentProps>(
             targetAppInfo,
             outcomeCounter,
             headingLevel,
+            cardSelectionMessageCreator
         } = props;
         if (results.length === 0) {
             return null;
         }
         return (
             <>
-                <deps.cardsVisualizationModifierButtons {...props} />
+                <deps.cardsVisualizationModifierButtons {...props} cardSelectionMessageCreator={cardSelectionMessageCreator!} />
                 <RulesWithInstances
                     deps={deps}
                     rules={results}
@@ -63,7 +64,7 @@ export const ResultSectionContent = NamedFC<ResultSectionContentProps>(
                     targetAppInfo={targetAppInfo}
                     outcomeCounter={outcomeCounter}
                     headingLevel={headingLevel}
-                    cardSelectionMessageCreator={props.cardSelectionMessageCreator}
+                    cardSelectionMessageCreator={cardSelectionMessageCreator!}
                 />
             </>
         );
