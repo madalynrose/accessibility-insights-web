@@ -4,7 +4,7 @@
 import { loadTheme, setFocusVisibility } from '@fluentui/react';
 import Ajv from 'ajv';
 import { AssessmentDefaultMessageGenerator } from 'assessments/assessment-default-message-generator';
-import { Assessments } from 'assessments/assessments';
+import { Assessments, SelectedAssessments } from 'assessments/assessments';
 import { assessmentsProviderWithFeaturesEnabled } from 'assessments/assessments-feature-flag-filter';
 import { UserConfigurationActions } from 'background/actions/user-configuration-actions';
 import { IssueDetailsTextGenerator } from 'background/issue-details-text-generator';
@@ -327,9 +327,9 @@ if (tabId != null) {
                 detailsViewActionMessageCreator,
                 new AssessmentTableColumnConfigHandler(
                     new MasterCheckBoxConfigProvider(detailsViewActionMessageCreator),
-                    Assessments,
+                    SelectedAssessments,
                 ),
-                Assessments,
+                SelectedAssessments,
             );
             const issuesTableHandler = new IssuesTableHandler();
             const previewFeatureFlagsHandler = new PreviewFeatureFlagsHandler(
@@ -505,7 +505,7 @@ if (tabId != null) {
                 contentActionMessageCreator,
                 detailsViewActionMessageCreator,
                 tabStopRequirementActionMessageCreator,
-                assessmentsProvider: Assessments,
+                assessmentsProvider: SelectedAssessments,
                 actionInitiators,
                 assessmentDefaultMessageGenerator: assessmentDefaultMessageGenerator,
                 issueDetailsTextGenerator,
@@ -568,7 +568,7 @@ if (tabId != null) {
                 assessmentInstanceTableHandler,
                 previewFeatureFlagsHandler,
                 scopingFlagsHandler,
-                Assessments,
+                SelectedAssessments,
                 assessmentViewUpdateHandler,
                 navLinkRenderer,
                 getNarrowModeThresholds: getNarrowModeThresholdsForWeb,

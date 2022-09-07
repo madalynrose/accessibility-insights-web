@@ -53,3 +53,12 @@ export const Assessments: AssessmentsProvider = AssessmentsProviderImpl.Create([
     PointerMotionAssessment,
     ContrastAssessment,
 ]);
+
+// replace this list with any subset of the assessments above
+export const SelectedAssessments: AssessmentsProvider = AssessmentsProviderImpl.Create([
+    AutomatedChecks,
+    KeyboardInteraction,
+    VisibleFocusOrderAssessment,
+    LandmarksAssessment,
+    HeadingsAssessment,
+]);
