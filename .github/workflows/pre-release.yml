@@ -14,8 +14,8 @@ on:
       product:
         type: choice
         options:
-          - web
-          - unified
+        - web
+        - unified
         required: true
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_sha: ${{ github.event.inputs.commit }}
           custom_tag: ${{ github.event.inputs.version }}
-          tag_prefix: '${{ github.events.inputs.product }}@'
+          tag_prefix: ${{ github.event.inputs.product }}@
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
