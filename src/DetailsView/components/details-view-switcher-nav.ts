@@ -99,6 +99,7 @@ export type DetailsViewSwitcherNavConfiguration = Readonly<{
     leftNavHamburgerButton: ReactFCWithDisplayName<ExpandCollpaseLeftNavButtonProps>;
     getSharedAssessmentFunctionalityObjects: GetSharedAssessmentFunctionalityObjects;
     getSelectedAssessmentStoreData: GetSelectedAssessmentStoreData;
+    shouldShowRequirementContextBox: boolean;
 }>;
 
 type InternalDetailsViewSwitcherNavConfiguration = Omit<
@@ -128,6 +129,7 @@ const detailsViewSwitcherNavs: {
         leftNavHamburgerButton: AssessmentLeftNavHamburgerButton,
         getSharedAssessmentFunctionalityObjects: switcher => switcher.getAssessmentObjects(),
         getSelectedAssessmentStoreData: getAssessmentStoreData,
+        shouldShowRequirementContextBox: false,
     },
     [DetailsViewPivotType.mediumPass]: {
         CommandBar: MediumPassCommandBar,
@@ -142,6 +144,7 @@ const detailsViewSwitcherNavs: {
         leftNavHamburgerButton: MediumPassLeftNavHamburgerButton,
         getSharedAssessmentFunctionalityObjects: switcher => switcher.getQuickAssessObjects(),
         getSelectedAssessmentStoreData: getQuickAssessStoreData,
+        shouldShowRequirementContextBox: true,
     },
     [DetailsViewPivotType.fastPass]: {
         CommandBar: AutomatedChecksCommandBar,
@@ -158,6 +161,7 @@ const detailsViewSwitcherNavs: {
 
         // Getting assessmentStoreData is default behavior
         getSelectedAssessmentStoreData: getAssessmentStoreData,
+        shouldShowRequirementContextBox: false,
     },
 };
 

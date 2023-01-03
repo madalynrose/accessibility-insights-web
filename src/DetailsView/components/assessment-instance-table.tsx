@@ -23,7 +23,7 @@ import {
 } from '../../common/types/store-data/assessment-result-data';
 import { DictionaryStringTo } from '../../types/common-types';
 import { AssessmentInstanceTableHandler } from '../handlers/assessment-instance-table-handler';
-
+import styles from './assessment-instance-table.scss';
 export const passUnmarkedInstancesButtonAutomationId =
     'assessment-instance-table-pass-unmarked-instances-button';
 
@@ -80,7 +80,7 @@ export class AssessmentInstanceTable extends React.Component<AssessmentInstanceT
         }
 
         return (
-            <div>
+            <div className={styles.assessmentInstanceTable}>
                 {this.renderInstanceTableHeader(items)}
                 <DetailsList
                     ariaLabelForGrid="Use arrow keys to navigate inside the instances grid"

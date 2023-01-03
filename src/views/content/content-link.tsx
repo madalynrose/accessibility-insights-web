@@ -7,6 +7,7 @@ import * as React from 'react';
 import { ContentActionMessageCreator } from '../../common/message-creators/content-action-message-creator';
 import { NamedFC } from '../../common/react/named-fc';
 import { ContentProvider, ContentReference } from './content-page';
+import { NewTabLink } from 'common/components/new-tab-link';
 
 export type ContentLinkDeps = {
     contentProvider: ContentProvider;
@@ -18,11 +19,12 @@ export type ContentLinkProps = {
     reference: ContentReference;
     linkText?: string;
     iconName?: string;
+    hideTooltip?: boolean;
 };
 
 export const ContentLink = NamedFC<ContentLinkProps>(
     'ContentLink',
-    ({ deps, reference, iconName, linkText }) => {
+    ({ deps, reference, iconName, linkText, hideTooltip }) => {
         const { contentProvider, contentActionMessageCreator } = deps;
         const { openContentPage } = contentActionMessageCreator;
 
@@ -37,11 +39,17 @@ export const ContentLink = NamedFC<ContentLinkProps>(
 
         const icon = iconName && <Icon iconName={iconName} />;
         const ariaLabel = linkText ? `${linkText} guidance` : 'Guidance';
-
-        return (
+        const handleLinkClick = ev => openContentPage(ev, contentPath);
+        const linkHref = `/insights.html#/content/${contentPath}`;
+        const TabLinkComponent = hideTooltip ? (
+            <NewTabLink href={linkHref} onClick={handleLinkClick} aria-label={ariaLabel}>
+                {icon}
+                {linkText}
+            </NewTabLink>
+        ) : (
             <NewTabLinkWithTooltip
-                href={`/insights.html#/content/${contentPath}`}
-                onClick={ev => openContentPage(ev, contentPath)}
+                href={linkHref}
+                onClick={handleLinkClick}
                 tooltipContent={'Guidance'}
                 aria-label={ariaLabel}
             >
@@ -49,5 +57,7 @@ export const ContentLink = NamedFC<ContentLinkProps>(
                 {linkText}
             </NewTabLinkWithTooltip>
         );
+
+        return TabLinkComponent;
     },
 );

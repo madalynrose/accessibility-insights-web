@@ -16,12 +16,13 @@ export type ContentPanelButtonProps = {
     contentTitle: string;
     deps: ContentPanelButtonDeps;
     reference: ContentReference;
-    iconName: string;
+    iconName?: string;
+    className?: string;
 };
 
 export const ContentPanelButton = NamedFC<ContentPanelButtonProps>(
     'ContentPanelButton',
-    ({ contentTitle, deps, reference, children, iconName }) => {
+    ({ contentTitle, deps, reference, children, iconName, className }) => {
         const { contentProvider, contentActionMessageCreator } = deps;
 
         if (!reference) {
@@ -41,6 +42,7 @@ export const ContentPanelButton = NamedFC<ContentPanelButtonProps>(
                 iconProps={{ iconName }}
                 onClick={onClick}
                 ariaLabel={'info and examples'}
+                className={className}
             >
                 {children}
             </ActionButton>

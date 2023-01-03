@@ -27,12 +27,19 @@ import {
 import { AssessmentInstanceTableHandler } from 'DetailsView/handlers/assessment-instance-table-handler';
 import * as React from 'react';
 import styles from './requirement-view.scss';
+import {
+    RequirementContextSection,
+    RequirementContextSectionDeps,
+} from 'DetailsView/components/requirement-context-section';
+import { VisualizationType } from 'common/types/visualization-type';
 
 export type RequirementViewDeps = {
     assessmentViewUpdateHandler: AssessmentViewUpdateHandler;
     getProvider: () => AssessmentsProvider;
     assessmentDefaultMessageGenerator: AssessmentDefaultMessageGenerator;
+    mediumPassRequirementKeys: string[];
 } & RequirementViewTitleDeps &
+    RequirementContextSectionDeps &
     AssessmentViewUpdateHandlerDeps;
 
 export interface RequirementViewProps {
@@ -46,6 +53,7 @@ export interface RequirementViewProps {
     assessmentData: AssessmentData;
     currentTarget: Tab;
     prevTarget: PersistedTabInfo;
+    shouldShowRequirementContextBox: boolean;
 }
 
 export class RequirementView extends React.Component<RequirementViewProps> {
@@ -77,25 +85,23 @@ export class RequirementView extends React.Component<RequirementViewProps> {
         };
     }
 
-    public render(): JSX.Element {
-        const { deps } = this.props;
-        const assessment: Readonly<Assessment> = deps
-            .getProvider()
-            .forType(this.props.assessmentNavState.selectedTestType);
-        const requirement: Readonly<Requirement> = deps
-            .getProvider()
-            .getStep(
-                this.props.assessmentNavState.selectedTestType,
-                this.props.assessmentNavState.selectedTestSubview,
-            );
-        const requirementIndex = assessment.requirements.findIndex(r => r.key === requirement.key);
-        const nextRequirement = assessment.requirements[requirementIndex + 1] ?? null;
+    private renderTitle(requirement: Requirement): JSX.Element {
+        return (
+            <RequirementViewTitle
+                deps={this.props.deps}
+                name={requirement.name}
+                guidanceLinks={requirement.guidanceLinks}
+                infoAndExamples={requirement.infoAndExamples}
+                shouldHideInfoButton={this.props.shouldShowRequirementContextBox}
+            />
+        );
+    }
 
-        const isRequirementScanned =
-            this.props.assessmentData.testStepStatus[requirement.key].isStepScanned;
-
-        const requirementHasVisualHelper = !!requirement.getVisualHelperToggle;
-
+    private renderVisualHelperToggle(
+        requirement: Requirement,
+        requirementHasVisualHelper: boolean,
+        isRequirementScanned: boolean,
+    ): JSX.Element {
         const visualHelperToggleConfig: VisualHelperToggleConfig = {
             deps: this.props.deps,
             assessmentNavState: this.props.assessmentNavState,
@@ -107,49 +113,129 @@ export class RequirementView extends React.Component<RequirementViewProps> {
         const visualHelperToggle = requirementHasVisualHelper
             ? requirement.getVisualHelperToggle(visualHelperToggleConfig)
             : null;
+        return visualHelperToggle;
+    }
+
+    private renderRequirementContent(requirement: Requirement): JSX.Element {
+        const requirementHasVisualHelper = !!requirement.getVisualHelperToggle;
+        const isRequirementScanned =
+            this.props.assessmentData.testStepStatus[requirement.key].isStepScanned;
+        return (
+            <>
+                {requirement.description}
+                {this.renderVisualHelperToggle(
+                    requirement,
+                    requirementHasVisualHelper,
+                    isRequirementScanned,
+                )}
+                <RequirementInstructions howToTest={requirement.howToTest} />
+                <RequirementTableSection
+                    requirement={requirement}
+                    assessmentNavState={this.props.assessmentNavState}
+                    instancesMap={this.props.assessmentData.generatedAssessmentInstancesMap}
+                    manualRequirementResultMap={this.props.assessmentData.manualTestStepResultMap}
+                    assessmentInstanceTableHandler={this.props.assessmentInstanceTableHandler}
+                    assessmentsProvider={this.props.deps.getProvider()}
+                    featureFlagStoreData={this.props.featureFlagStoreData}
+                    pathSnippetStoreData={this.props.pathSnippetStoreData}
+                    scanningInProgress={this.props.scanningInProgress}
+                    selectedRequirementHasVisualHelper={requirementHasVisualHelper}
+                    isRequirementScanned={isRequirementScanned}
+                    assessmentDefaultMessageGenerator={
+                        this.props.deps.assessmentDefaultMessageGenerator
+                    }
+                />
+            </>
+        );
+    }
+
+    private renderNextRequirementButton(
+        requirement: Requirement,
+        assessment: Assessment,
+    ): JSX.Element {
+        const { mediumPassRequirementKeys, getProvider } = this.props.deps;
+        let nextRequirement: Requirement;
+        let currentTest: VisualizationType;
+        if (this.props.shouldShowRequirementContextBox) {
+            const requirementIndex = mediumPassRequirementKeys.findIndex(
+                r => r === requirement.key,
+            );
+            if (requirementIndex === mediumPassRequirementKeys.length) {
+                //TODO: special go to assessment button
+                return null;
+            }
+            const nextRequirementKey = mediumPassRequirementKeys[requirementIndex + 1];
+            const nextAssessment = getProvider().forRequirementKey(nextRequirementKey);
+            nextRequirement = nextAssessment.requirements.find(r => r.key === nextRequirementKey);
+            currentTest = nextAssessment.visualizationType;
+        } else {
+            const requirementIndex = assessment.requirements.findIndex(
+                r => r.key === requirement.key,
+            );
+            nextRequirement = assessment.requirements[requirementIndex + 1] ?? null;
+            currentTest = this.props.assessmentNavState.selectedTestType;
+        }
+
+        return (
+            <div className={styles.nextRequirementButtonContainer}>
+                <NextRequirementButton
+                    deps={this.props.deps}
+                    nextRequirement={nextRequirement}
+                    currentTest={currentTest}
+                    className={styles.nextRequirementButton}
+                />
+            </div>
+        );
+    }
+
+    private renderRequirementContextBox(
+        requirement: Requirement,
+        assessment: Assessment,
+    ): JSX.Element {
+        return (
+            <div className={styles.requirementContextBox}>
+                <RequirementContextSection
+                    whyItMattersText={assessment.gettingStarted}
+                    requirement={requirement}
+                    linkDataSource={requirement.guidanceLinks}
+                    guidance={assessment.guidance}
+                    guidanceName={assessment.title}
+                    deps={this.props.deps}
+                />
+            </div>
+        );
+    }
+
+    public render(): JSX.Element {
+        const { deps } = this.props;
+        const assessment: Readonly<Assessment> = deps
+            .getProvider()
+            .forType(this.props.assessmentNavState.selectedTestType);
+        const requirement: Readonly<Requirement> = deps
+            .getProvider()
+            .getStep(
+                this.props.assessmentNavState.selectedTestType,
+                this.props.assessmentNavState.selectedTestSubview,
+            );
 
         return (
             <div className={styles.requirementView}>
                 <div>
-                    <RequirementViewTitle
-                        deps={this.props.deps}
-                        name={requirement.name}
-                        guidanceLinks={requirement.guidanceLinks}
-                        infoAndExamples={requirement.infoAndExamples}
-                    />
+                    {this.renderTitle(requirement)}
                     <div className={styles.mainContent}>
-                        {requirement.description}
-                        {visualHelperToggle}
-                        <RequirementInstructions howToTest={requirement.howToTest} />
-                        <RequirementTableSection
-                            requirement={requirement}
-                            assessmentNavState={this.props.assessmentNavState}
-                            instancesMap={this.props.assessmentData.generatedAssessmentInstancesMap}
-                            manualRequirementResultMap={
-                                this.props.assessmentData.manualTestStepResultMap
-                            }
-                            assessmentInstanceTableHandler={
-                                this.props.assessmentInstanceTableHandler
-                            }
-                            assessmentsProvider={deps.getProvider()}
-                            featureFlagStoreData={this.props.featureFlagStoreData}
-                            pathSnippetStoreData={this.props.pathSnippetStoreData}
-                            scanningInProgress={this.props.scanningInProgress}
-                            selectedRequirementHasVisualHelper={requirementHasVisualHelper}
-                            isRequirementScanned={isRequirementScanned}
-                            assessmentDefaultMessageGenerator={
-                                deps.assessmentDefaultMessageGenerator
-                            }
-                        />
+                        <div className={styles.requirementDescription}>
+                            {this.renderRequirementContent(requirement)}
+                        </div>
+                        {this.props.shouldShowRequirementContextBox && (
+                            <div className={styles.requirementContext}>
+                                {this.props.shouldShowRequirementContextBox &&
+                                    this.renderRequirementContextBox(requirement, assessment)}
+                                {this.renderNextRequirementButton(requirement, assessment)}
+                            </div>
+                        )}
                     </div>
-                </div>
-                <div className={styles.nextRequirementButtonContainer}>
-                    <NextRequirementButton
-                        deps={this.props.deps}
-                        nextRequirement={nextRequirement}
-                        currentTest={this.props.assessmentNavState.selectedTestType}
-                        className={styles.nextRequirementButton}
-                    />
+                    {!this.props.shouldShowRequirementContextBox &&
+                        this.renderNextRequirementButton(requirement, assessment)}
                 </div>
             </div>
         );

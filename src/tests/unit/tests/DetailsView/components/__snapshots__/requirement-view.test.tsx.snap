@@ -17,84 +17,90 @@ exports[`RequirementViewTest renders with content from props 1`] = `
     <div
       className="mainContent"
     >
-      <div>
-        test-description
+      <div
+        className="requirementDescription"
+      >
+        <React.Fragment>
+          <div>
+            test-description
+          </div>
+          <div>
+            test-visual-helper-toggle
+          </div>
+          <RequirementInstructions
+            howToTest={
+              <p>
+                how-to-test-stub
+              </p>
+            }
+          />
+          <RequirementTableSection
+            assessmentInstanceTableHandler={
+              {
+                "changeRequirementStatus": null,
+              }
+            }
+            assessmentNavState={
+              {
+                "selectedTestSubview": "test-requirement-name",
+                "selectedTestType": 0,
+              }
+            }
+            assessmentsProvider={[typemoq mock object]}
+            featureFlagStoreData={
+              {
+                "some feature flag": true,
+              }
+            }
+            instancesMap={{}}
+            isRequirementScanned={true}
+            manualRequirementResultMap={
+              {
+                "some manual test step result id": null,
+              }
+            }
+            pathSnippetStoreData={
+              {
+                "path": null,
+              }
+            }
+            requirement={
+              {
+                "description": <div>
+                  test-description
+                </div>,
+                "getVisualHelperToggle": [Function],
+                "howToTest": <p>
+                  how-to-test-stub
+                </p>,
+                "key": "test-requirement-key",
+                "name": "test-requirement-name",
+              }
+            }
+            selectedRequirementHasVisualHelper={true}
+          />
+        </React.Fragment>
       </div>
-      <div>
-        test-visual-helper-toggle
-      </div>
-      <RequirementInstructions
-        howToTest={
-          <p>
-            how-to-test-stub
-          </p>
-        }
-      />
-      <RequirementTableSection
-        assessmentInstanceTableHandler={
+    </div>
+    <div
+      className="nextRequirementButtonContainer"
+    >
+      <NextRequirementButton
+        className="nextRequirementButton"
+        currentTest={0}
+        deps={
           {
-            "changeRequirementStatus": null,
+            "assessmentViewUpdateHandler": [typemoq mock object],
+            "getProvider": [Function],
           }
         }
-        assessmentNavState={
+        nextRequirement={
           {
-            "selectedTestSubview": "test-requirement-name",
-            "selectedTestType": 0,
+            "key": "other-requirement-key",
           }
         }
-        assessmentsProvider={[typemoq mock object]}
-        featureFlagStoreData={
-          {
-            "some feature flag": true,
-          }
-        }
-        instancesMap={{}}
-        isRequirementScanned={true}
-        manualRequirementResultMap={
-          {
-            "some manual test step result id": null,
-          }
-        }
-        pathSnippetStoreData={
-          {
-            "path": null,
-          }
-        }
-        requirement={
-          {
-            "description": <div>
-              test-description
-            </div>,
-            "getVisualHelperToggle": [Function],
-            "howToTest": <p>
-              how-to-test-stub
-            </p>,
-            "key": "test-requirement-key",
-            "name": "test-requirement-name",
-          }
-        }
-        selectedRequirementHasVisualHelper={true}
       />
     </div>
-  </div>
-  <div
-    className="nextRequirementButtonContainer"
-  >
-    <NextRequirementButton
-      className="nextRequirementButton"
-      currentTest={0}
-      deps={
-        {
-          "assessmentViewUpdateHandler": [typemoq mock object],
-          "getProvider": [Function],
-        }
-      }
-      nextRequirement={
-        {
-          "key": "other-requirement-key",
-        }
-      }
-    />
   </div>
 </div>
 `;

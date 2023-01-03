@@ -15,6 +15,7 @@ export interface RequirementViewTitleProps {
     name: string;
     guidanceLinks: HyperlinkDefinition[];
     infoAndExamples: ContentPageComponent;
+    shouldHideInfoButton: boolean;
 }
 
 export const RequirementViewTitle = NamedFC<RequirementViewTitleProps>(
@@ -24,12 +25,14 @@ export const RequirementViewTitle = NamedFC<RequirementViewTitleProps>(
             <h1 className={styles.requirementViewTitle}>
                 {props.name}
                 <GuidanceTags deps={props.deps} links={props.guidanceLinks} />
-                <ContentPanelButton
-                    deps={props.deps}
-                    reference={props.infoAndExamples}
-                    iconName="info"
-                    contentTitle={props.name}
-                />
+                {!props.shouldHideInfoButton && (
+                    <ContentPanelButton
+                        deps={props.deps}
+                        reference={props.infoAndExamples}
+                        iconName="info"
+                        contentTitle={props.name}
+                    />
+                )}
             </h1>
         );
     },
