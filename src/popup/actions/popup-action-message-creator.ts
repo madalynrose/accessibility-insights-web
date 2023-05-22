@@ -77,7 +77,6 @@ export class PopupActionMessageCreator {
         source: TelemetryEventSource,
         pivotType: DetailsViewPivotType,
     ): Promise<void> {
-        console.log(this.telemetryFactory, this.dispatcher, this.windowUtils);
         const telemetry = this.telemetryFactory.forOpenDetailsView(event, viewType, source);
 
         const payload: OnDetailsViewOpenPayload = {
