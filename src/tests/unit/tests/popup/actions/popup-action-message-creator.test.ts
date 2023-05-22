@@ -68,6 +68,29 @@ describe('PopupActionMessageCreatorTest', () => {
         );
     });
 
+    it('dispatches for enableInitialVisualization', () => {
+        const test: VisualizationType = VisualizationType.Headings;
+        const telemetry: BaseTelemetryData = {
+            source: TelemetryEventSource.LaunchPad,
+            triggeredBy: 'N/A',
+        };
+
+        const expectedMessage = {
+            messageType: Messages.Assessment.EnableVisualHelperWithoutScan,
+            payload: {
+                telemetry,
+                test,
+            },
+        };
+
+        testSubject.enableInitialVisualization(test);
+
+        actionMessageDispatcherMock.verify(
+            dispatcher => dispatcher.dispatchMessage(It.isValue(expectedMessage)),
+            Times.once(),
+        );
+    });
+
     it('dispatches for openLaunchPad', () => {
         const panelType = LaunchPanelType.AdhocToolsPanel;
         const telemetry: TelemetryData = {
