@@ -176,7 +176,11 @@ export class VisualizationStore extends PersistentStore<VisualizationStoreData> 
         }
 
         const configuration = this.visualizationConfigurationFactory.getConfiguration(payload.test);
-        this.disableAssessmentVisualizationsWithoutEmitting();
+        if (this.isAdhoc(configuration)) {
+            this.disableAllTests();
+        } else {
+            this.disableAssessmentVisualizationsWithoutEmitting();
+        }
 
         const step = (payload as AssessmentToggleActionPayload).requirement;
         if (!skipScanning) {
