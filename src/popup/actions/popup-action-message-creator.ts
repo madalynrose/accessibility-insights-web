@@ -26,6 +26,21 @@ export class PopupActionMessageCreator {
         private readonly windowUtils: WindowUtils,
     ) {}
 
+    public enableInitialVisualization(visualizationType: VisualizationType): void {
+        const payload = {
+            telemetry: {
+                source: TelemetryEventSource.LaunchPad,
+                triggeredBy: 'N/A',
+            },
+            test: visualizationType,
+        };
+
+        this.dispatcher.dispatchMessage({
+            messageType: Messages.Assessment.EnableVisualHelperWithoutScan,
+            payload,
+        });
+    }
+
     public openTutorial(event: React.MouseEvent<HTMLElement>): void {
         this.dispatcher.sendTelemetry(
             TelemetryEvents.TUTORIAL_OPEN,
@@ -62,8 +77,11 @@ export class PopupActionMessageCreator {
         source: TelemetryEventSource,
         pivotType: DetailsViewPivotType,
     ): Promise<void> {
+        console.log(this.telemetryFactory, this.dispatcher, this.windowUtils);
+        const telemetry = this.telemetryFactory.forOpenDetailsView(event, viewType, source);
+
         const payload: OnDetailsViewOpenPayload = {
-            telemetry: this.telemetryFactory.forOpenDetailsView(event, viewType, source),
+            telemetry,
             detailsViewType: viewType,
             pivotType: pivotType,
         };
