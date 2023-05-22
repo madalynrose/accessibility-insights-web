@@ -93,7 +93,7 @@ export class DiagnosticViewToggle extends React.Component<
     private renderToggleOrSpinner(): JSX.Element {
         const scanning = this.props.visualizationStoreData.scanning;
         const id = this.configuration.getIdentifier();
-        const scanData = this.configuration.getStoreData(this.props.visualizationStoreData.tests);
+        const scanData = this.getScanData();
 
         if (scanning === id) {
             return <Spinner size={SpinnerSize.small} componentRef={this.addUserEventListener} />;
@@ -121,6 +121,12 @@ export class DiagnosticViewToggle extends React.Component<
 
     public componentDidMount(): void {
         this._isMounted = true;
+        if (this.getScanData().enabled) {
+            this.props.actionMessageCreator.enableInitialVisualization(
+                this.props.visualizationType,
+            );
+        }
+
         this.setFocus();
     }
 
@@ -208,5 +214,9 @@ export class DiagnosticViewToggle extends React.Component<
         }
 
         throw new Error(`Cannot find command for name: ${commandName}`);
+    }
+
+    private getScanData() {
+        return this.configuration.getStoreData(this.props.visualizationStoreData.tests);
     }
 }
