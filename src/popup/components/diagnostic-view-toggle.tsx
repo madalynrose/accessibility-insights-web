@@ -121,6 +121,7 @@ export class DiagnosticViewToggle extends React.Component<
 
     public componentDidMount(): void {
         this._isMounted = true;
+
         if (this.getScanData().enabled) {
             this.props.actionMessageCreator.enableInitialVisualization(
                 this.props.visualizationType,
