@@ -1,1 +1,13 @@
-["@typescript-eslint/parser", "-/core-js-bundle", "-/stylelint-config-standard-scss"]
+[
+    "@swc/core",
+    "@types/chrome",
+    "@types/jest",
+    "@types/jsdom",
+    "@typescript-eslint/parser",
+    "-/core-js-bundle",
+    "-/esbuild",
+    "-/jest-environment-jsdom",
+    "-/playwright",
+    "-/postcss",
+    "-/stylelint-config-standard-scss"
+]
