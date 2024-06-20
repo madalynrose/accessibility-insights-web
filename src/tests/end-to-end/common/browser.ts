@@ -19,6 +19,7 @@ import { DetailsViewPage, detailsViewRelativeUrl } from './page-controllers/deta
 import { Page } from './page-controllers/page';
 import { PopupPage, popupPageRelativeUrl } from './page-controllers/popup-page';
 import { TargetPage, targetPageUrl, TargetPageUrlOptions } from './page-controllers/target-page';
+import { TabStopsTargetPage } from 'tests/end-to-end/common/page-controllers/tab-stops-target-page';
 
 export class Browser {
     private memoizedServiceWorker: ServiceWorker;
@@ -87,6 +88,15 @@ export class Browser {
         const targetPage = new NestedIframeTargetPage(underlyingPage, tabId);
         this.pages.push(targetPage);
         await targetPage.goto(NestedIframeTargetPage.url);
+        return targetPage;
+    }
+
+    public async newTabStopsTargetPage(): Promise<TabStopsTargetPage> {
+        const underlyingPage = await this.underlyingBrowserContext.newPage();
+        const tabId = await this.getActivePageTabId();
+        const targetPage = new TabStopsTargetPage(underlyingPage, tabId);
+        this.pages.push(targetPage);
+        await targetPage.goto(TabStopsTargetPage.url);
         return targetPage;
     }
 
